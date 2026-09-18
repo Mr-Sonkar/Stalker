@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ScanForm } from "@/components/ScanForm";
@@ -17,8 +16,6 @@ import {
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
-      <Navbar />
-
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24">
