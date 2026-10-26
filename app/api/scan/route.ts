@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 import { runPrivacyScan } from "@/lib/scanner";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,30 +63,11 @@ export async function POST(req: NextRequest) {
     // 1. Run the privacy scanning engines
     const report = await runPrivacyScan(email, fileData, bioText, screenshotBuffer, screenshotMimeType);
 
-    // 2. Ensure a record exists for this user in Prisma SQLite
-    const dbEmail = email || `anonymous-${Date.now()}@scan.local`;
-    const user = await prisma.user.upsert({
-      where: { email: dbEmail },
-      update: {},
-      create: {
-        email: dbEmail,
-        name: dbEmail.split("@")[0],
-      },
-    });
-
-    // 3. Persist the scan result in the database
-    const savedScan = await prisma.scanResult.create({
-      data: {
-        userId: user.id,
-        type: "EMAIL_PRIVACY_AUDIT",
-        resultJson: JSON.stringify(report),
-      },
-    });
-
+    // Zero-knowledge in-memory return (no database persistence of personal queries)
     return NextResponse.json(
       {
         success: true,
-        scanId: savedScan.id,
+        scanId: report.id,
         report,
       },
       { status: 200 }

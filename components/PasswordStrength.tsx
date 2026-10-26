@@ -26,7 +26,7 @@ export function PasswordStrength() {
   }, [password, zxcvbnLib]);
 
   const score = result ? result.score : 0;
-  
+
   const getScoreColor = () => {
     if (!password) return "bg-gray-200";
     switch (score) {
@@ -67,7 +67,7 @@ export function PasswordStrength() {
       <p className="text-xs text-gray-500 mb-4">
         Your password is evaluated entirely in your browser. It is never sent to our servers.
       </p>
-      
+
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="password-check">
           Test a password
@@ -87,7 +87,7 @@ export function PasswordStrength() {
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-medium text-gray-700">Strength: {getScoreLabel()}</span>
           </div>
-          
+
           <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
             <div
               className={`h-2 rounded-full transition-all duration-300 ${getScoreColor()}`}
@@ -101,13 +101,13 @@ export function PasswordStrength() {
                 <span className="font-medium text-gray-900">Estimated crack time:</span>{" "}
                 {result.crack_times_display.offline_slow_hashing_1e4_per_second}
               </p>
-              
+
               {result.feedback.warning && (
                 <p className="text-amber-600 mt-2 text-xs font-medium flex items-start">
                   <span className="mr-1">⚠️</span> {result.feedback.warning}
                 </p>
               )}
-              
+
               {result.feedback.suggestions && result.feedback.suggestions.length > 0 && (
                 <ul className="mt-2 text-xs list-disc pl-5 space-y-1">
                   {result.feedback.suggestions.map((s: string, i: number) => (

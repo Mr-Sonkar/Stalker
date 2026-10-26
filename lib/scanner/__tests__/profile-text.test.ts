@@ -1,7 +1,11 @@
 import { runProfileTextScan } from "../profile-text";
 
 jest.mock("../profile-text/ocr", () => ({
-  extractTextFromImage: jest.fn().mockResolvedValue("Hi! My email is test@example.com and phone is 800-555-0199."),
+  validateImageForOCR: jest.fn().mockReturnValue(null),
+  extractTextFromImage: jest.fn().mockResolvedValue({
+    text: "Hi! My email is test@example.com and phone is 800-555-0199.",
+    confidence: 95,
+  }),
 }));
 
 describe("Profile Text Scan", () => {

@@ -45,7 +45,7 @@ describe('Metadata Extractor', () => {
         getCreationDate: jest.fn().mockReturnValue(new Date('2023-01-01')),
         getModificationDate: jest.fn().mockReturnValue(undefined),
       };
-      
+
       (PDFDocument.load as jest.Mock).mockResolvedValue(mockPdfDoc);
 
       const findings = await extractPdfMetadata(dummyBuffer);

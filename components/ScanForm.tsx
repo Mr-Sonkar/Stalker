@@ -11,14 +11,14 @@ export function ScanForm() {
   const [file, setFile] = useState<File | null>(null);
   const [bioText, setBioText] = useState("");
   const [screenshot, setScreenshot] = useState<File | null>(null);
-  
+
   const [isScanning, setIsScanning] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [scanData, setScanData] = useState<{
     report: ScanReport;
     scanId: string;
   } | null>(null);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const screenshotInputRef = useRef<HTMLInputElement>(null);
 
@@ -149,7 +149,7 @@ export function ScanForm() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* File Upload Zone */}
-          <div 
+          <div
             className="relative rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-6 text-center transition-colors hover:border-indigo-500 hover:bg-slate-900/80 cursor-pointer flex flex-col items-center justify-center min-h-[120px]"
             onClick={() => fileInputRef.current?.click()}
           >
@@ -160,7 +160,7 @@ export function ScanForm() {
               accept="image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               className="hidden"
             />
-            
+
             {file ? (
               <div className="flex flex-col items-center gap-2">
                 <div className="flex items-center gap-2 text-indigo-400">
@@ -192,7 +192,7 @@ export function ScanForm() {
           </div>
 
           {/* Screenshot Upload Zone */}
-          <div 
+          <div
             className="relative rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-6 text-center transition-colors hover:border-indigo-500 hover:bg-slate-900/80 cursor-pointer flex flex-col items-center justify-center min-h-[120px]"
             onClick={() => screenshotInputRef.current?.click()}
           >
@@ -203,7 +203,7 @@ export function ScanForm() {
               accept="image/*"
               className="hidden"
             />
-            
+
             {screenshot ? (
               <div className="flex flex-col items-center gap-2">
                 <div className="flex items-center gap-2 text-indigo-400">

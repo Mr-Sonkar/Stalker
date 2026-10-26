@@ -31,7 +31,7 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
 
     try {
       setIsExporting(true);
-      
+
       const imgData = await toPng(reportElement, {
         pixelRatio: 2,
         backgroundColor: "#020617",
@@ -155,13 +155,12 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
             <span className="text-xs text-slate-400">Threat Score</span>
             <div className="mt-1 flex items-baseline gap-1">
               <span
-                className={`font-mono text-2xl font-black ${
-                  report.riskScore > 50
+                className={`font-mono text-2xl font-black ${report.riskScore > 50
                     ? "text-red-400"
                     : report.riskScore > 20
                       ? "text-yellow-400"
                       : "text-emerald-400"
-                }`}
+                  }`}
               >
                 {report.riskScore}
               </span>
@@ -191,14 +190,14 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
           </div>
         </div>
 
-        {/* Database Persistence Status Pill */}
+        {/* Zero-Knowledge Privacy Status Pill */}
         {scanDbId && (
-          <div className="mt-4 flex items-center justify-between rounded-xl border border-indigo-500/20 bg-indigo-950/30 px-4 py-2 text-xs text-indigo-300">
+          <div className="mt-4 flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-950/30 px-4 py-2 text-xs text-emerald-300">
             <div className="flex items-center gap-2">
-              <Database className="h-3.5 w-3.5 text-indigo-400" />
-              <span>Saved to Prisma SQLite (`dev.db`)</span>
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+              <span>Zero-Knowledge Mode: Processed in-memory (No database logs retained)</span>
             </div>
-            <span className="font-mono text-[11px] text-slate-400">ID: {scanDbId}</span>
+            <span className="font-mono text-[11px] text-slate-400">Ref: {scanDbId}</span>
           </div>
         )}
       </div>
@@ -247,11 +246,10 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
                   {breach.dataClasses.map((dc, i) => (
                     <span
                       key={i}
-                      className={`rounded-md px-2 py-0.5 text-[11px] font-medium ${
-                        dc.toLowerCase().includes("password")
+                      className={`rounded-md px-2 py-0.5 text-[11px] font-medium ${dc.toLowerCase().includes("password")
                           ? "border border-red-500/30 bg-red-500/10 text-red-300"
                           : "border border-slate-800 bg-slate-900 text-slate-300"
-                      }`}
+                        }`}
                     >
                       {dc}
                     </span>
@@ -382,13 +380,12 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
                     <div key={i} className="rounded-xl border border-slate-800/80 bg-slate-900/50 p-3">
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{item.label}</span>
-                        <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
-                          item.riskLevel === 'HIGH' || item.riskLevel === 'CRITICAL' 
+                        <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${item.riskLevel === 'HIGH' || item.riskLevel === 'CRITICAL'
                             ? 'bg-red-500/10 text-red-400 border border-red-500/20'
                             : item.riskLevel === 'MODERATE'
                               ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
                               : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                        }`}>
+                          }`}>
                           {item.riskLevel}
                         </span>
                       </div>
@@ -423,17 +420,16 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
                       via {finding.source}
                     </span>
                   </div>
-                  <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
-                    finding.riskLevel === 'HIGH' || finding.riskLevel === 'CRITICAL' 
+                  <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${finding.riskLevel === 'HIGH' || finding.riskLevel === 'CRITICAL'
                       ? 'bg-red-500/10 text-red-400 border border-red-500/20'
                       : finding.riskLevel === 'MODERATE'
                         ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
                         : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                  }`}>
+                    }`}>
                     {finding.riskLevel}
                   </span>
                 </div>
-                
+
                 <p className="mt-1 text-sm font-semibold text-white break-words">{finding.matchedText}</p>
                 <p className="mt-2 text-xs text-slate-400">{finding.recommendation}</p>
               </div>
