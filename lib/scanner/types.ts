@@ -19,11 +19,57 @@ export interface AccountExposure {
   details?: string;
 }
 
+export interface PasteFinding {
+  id: string;
+  source: string;
+  title: string;
+  date: string;
+  emailCount: number;
+}
+
+export interface PasteResult {
+  success: boolean;
+  data: PasteFinding[];
+  error?: string;
+  dataUnavailable?: boolean;
+}
+
 export interface EmailDomainInfo {
   domain: string;
   isDisposable: boolean;
   hasMxRecords: boolean;
   providerType: "custom" | "public_free" | "disposable" | "corporate";
+}
+
+export interface MetadataItem {
+  type: "gps" | "device" | "software" | "author" | "timestamp";
+  label: string;
+  value: string;
+  riskLevel: ThreatLevel;
+}
+
+export interface MetadataFinding {
+  fileName: string;
+  fileType: string;
+  findings: MetadataItem[];
+}
+
+export interface ProfileTextFinding {
+  source: "bio" | "ocr";
+  piiType:
+    | "email"
+    | "phone"
+    | "ssn"
+    | "credit_card"
+    | "address"
+    | "dob"
+    | "ipv4"
+    | "ipv6"
+    | "crypto_wallet";
+  matchedText: string;
+  riskLevel: ThreatLevel;
+  confidence: number;
+  recommendation: string;
 }
 
 export interface ScanReport {
@@ -41,5 +87,8 @@ export interface ScanReport {
   domainInfo: EmailDomainInfo;
   breaches: BreachItem[];
   accountExposures: AccountExposure[];
+  pasteFindings?: PasteFinding[]; // Optional - Phase 1
+  metadataFindings?: MetadataFinding[]; // Optional - Phase 2
+  profileTextFindings?: ProfileTextFinding[]; // Optional - Phase 3
   recommendations: string[];
 }

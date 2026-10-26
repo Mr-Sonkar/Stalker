@@ -1,16 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 import { runPrivacyScan } from "@/lib/scanner";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json().catch(() => ({}));
-    const rawTarget = body.email || body.query || "";
-    const email = String(rawTarget).trim().toLowerCase();
+    let email = "";
+    let fileData: { fileName: string; fileType: string; buffer: Buffer } | undefined;
+    let bioText = "";
+    let screenshotBuffer: Buffer | undefined;
+    let screenshotMimeType: string | undefined;
 
-    if (!email || !EMAIL_REGEX.test(email)) {
+    const contentType = req.headers.get("content-type") || "";
+    
+    if (contentType.includes("multipart/form-data")) {
+      const formData = await req.formData();
+      email = String(formData.get("email") || formData.get("query") || "").trim().toLowerCase();
+      bioText = String(formData.get("bioText") || "").trim();
+      
+      const file = formData.get("file") as File | null;
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        fileData = {
+          fileName: file.name,
+          fileType: file.type,
+          buffer: Buffer.from(arrayBuffer)
+        };
+      }
+      
+      const screenshot = formData.get("screenshot") as File | null;
+      if (screenshot && screenshot.size > 0) {
+        const arrayBuffer = await screenshot.arrayBuffer();
+        screenshotBuffer = Buffer.from(arrayBuffer);
+        screenshotMimeType = screenshot.type;
+      }
+    } else {
+      const body = await req.json().catch(() => ({}));
+      const rawTarget = body.email || body.query || "";
+      email = String(rawTarget).trim().toLowerCase();
+    }
+
+    if (!email && !fileData && !bioText && !screenshotBuffer) {
+      return NextResponse.json(
+        {
+          error: "No input provided",
+          message: "Please provide an email, file, bio, or screenshot to scan.",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (email && !EMAIL_REGEX.test(email)) {
       return NextResponse.json(
         {
           error: "Invalid email address",
@@ -21,31 +61,13 @@ export async function POST(req: NextRequest) {
     }
 
     // 1. Run the privacy scanning engines
-    const report = await runPrivacyScan(email);
+    const report = await runPrivacyScan(email, fileData, bioText, screenshotBuffer, screenshotMimeType);
 
-    // 2. Ensure a record exists for this user in Prisma SQLite
-    const user = await prisma.user.upsert({
-      where: { email },
-      update: {},
-      create: {
-        email,
-        name: email.split("@")[0],
-      },
-    });
-
-    // 3. Persist the scan result in the database
-    const savedScan = await prisma.scanResult.create({
-      data: {
-        userId: user.id,
-        type: "EMAIL_PRIVACY_AUDIT",
-        resultJson: JSON.stringify(report),
-      },
-    });
-
+    // Zero-knowledge in-memory return (no database persistence of personal queries)
     return NextResponse.json(
       {
         success: true,
-        scanId: savedScan.id,
+        scanId: report.id,
         report,
       },
       { status: 200 }

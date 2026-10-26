@@ -9,7 +9,7 @@ export function Footer() {
           <Shield className="h-4 w-4 text-indigo-400" />
           <span>Privacy Scanner — Personal Privacy & Digital Exposure Scanner</span>
         </div>
-        <p>Built with Next.js App Router, Tailwind CSS, TypeScript & Prisma ORM.</p>
+        <p>Built with Next.js App Router, Tailwind CSS, TypeScript & Local-First Privacy Engines.</p>
       </div>
     </footer>
   );

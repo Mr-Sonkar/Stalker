@@ -1,24 +1,21 @@
 import React from "react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ScanForm } from "@/components/ScanForm";
 import {
   ShieldAlert,
-  Database,
   Lock,
   Eye,
   Key,
   Terminal,
   CheckCircle2,
   Sparkles,
+  Fingerprint,
 } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
-      <Navbar />
-
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24">
@@ -85,15 +82,15 @@ export default function Home() {
                 badge="Threat Intel"
               />
               <FeatureCard
-                icon={Database}
-                title="Prisma & SQLite Storage"
-                description="Local-first database storage schema with User and ScanResult models ready for SQLite & PostgreSQL."
-                badge="Prisma ORM"
+                icon={Fingerprint}
+                title="Deep Hardware Fingerprint"
+                description="Audits WebGL GPU parameters, system font metrics, audio dynamics, speech synthesis voices, and anti-fingerprint noise defenses."
+                badge="Deep Audit"
               />
               <FeatureCard
                 icon={Lock}
                 title="Zero-Knowledge Privacy"
-                description="All scan queries run locally or with hashed token inputs to ensure queries cannot be traced back."
+                description="All scan queries run locally or with hashed token inputs to ensure queries cannot be traced back or stored."
                 badge="Privacy 1st"
               />
               <FeatureCard
@@ -106,21 +103,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Architecture & DB Verification Section */}
+        {/* Zero-Knowledge Privacy Architecture Section */}
         <section id="architecture" className="border-t border-slate-900 py-12">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 backdrop-blur-xl">
               <div className="flex flex-col items-start justify-between gap-4 border-b border-slate-800 pb-6 md:flex-row md:items-center">
                 <div>
                   <h3 className="text-xl font-bold text-white">
-                    Prisma Schema Architecture
+                    Zero-Knowledge Privacy Architecture
                   </h3>
                   <p className="mt-1 text-sm text-slate-400">
-                    Pre-configured models for local development with SQLite (`dev.db`).
+                    Engineered to process audits entirely in-memory with zero persistent database tracking.
                   </p>
                 </div>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
-                  <CheckCircle2 className="h-3.5 w-3.5" /> Schema Synchronized
+                  <CheckCircle2 className="h-3.5 w-3.5" /> 100% Ephemeral Processing
                 </span>
               </div>
 
@@ -128,30 +125,22 @@ export default function Home() {
                 <div className="rounded-2xl border border-slate-800/80 bg-slate-950 p-5">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="font-mono text-sm font-semibold text-indigo-400">
-                      model User
+                      Core Privacy Guarantees
                     </span>
-                    <span className="font-mono text-xs text-slate-500">users</span>
+                    <span className="font-mono text-xs text-emerald-400">Active</span>
                   </div>
-                  <ul className="space-y-1.5 font-mono text-xs text-slate-300">
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">id</span>
-                      <span className="text-amber-400">String @id @default(cuid())</span>
+                  <ul className="space-y-2.5 text-xs text-slate-300">
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-400">✓</span>
+                      <span><strong>No Database Retention:</strong> Personal emails, files, and queries are discarded immediately after report generation.</span>
                     </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">email</span>
-                      <span className="text-cyan-400">String @unique</span>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-400">✓</span>
+                      <span><strong>Cryptographic K-Anonymity:</strong> Passwords are truncated to 5-character SHA-1 prefixes before remote verification.</span>
                     </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">name</span>
-                      <span className="text-slate-400">String?</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">createdAt</span>
-                      <span className="text-slate-400">DateTime @default(now())</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">scanResults</span>
-                      <span className="text-indigo-400">ScanResult[]</span>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-400">✓</span>
+                      <span><strong>Client-Side Probing:</strong> Hardware & browser fingerprints are calculated locally in your browser.</span>
                     </li>
                   </ul>
                 </div>
@@ -159,30 +148,22 @@ export default function Home() {
                 <div className="rounded-2xl border border-slate-800/80 bg-slate-950 p-5">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="font-mono text-sm font-semibold text-indigo-400">
-                      model ScanResult
+                      Threat Intelligence Engine
                     </span>
-                    <span className="font-mono text-xs text-slate-500">scan_results</span>
+                    <span className="font-mono text-xs text-cyan-400">v0.2.0</span>
                   </div>
-                  <ul className="space-y-1.5 font-mono text-xs text-slate-300">
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">id</span>
-                      <span className="text-amber-400">String @id @default(cuid())</span>
+                  <ul className="space-y-2.5 text-xs text-slate-300">
+                    <li className="flex items-start gap-2">
+                      <span className="text-indigo-400">→</span>
+                      <span><strong>Deep Fingerprint Analysis:</strong> GPU shaders, font metric vectors, audio synthesis, and Brave noise detection.</span>
                     </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">userId</span>
-                      <span className="text-cyan-400">String (FK User)</span>
+                    <li className="flex items-start gap-2">
+                      <span className="text-indigo-400">→</span>
+                      <span><strong>Weighted Threat Scoring:</strong> Dynamic multi-vector risk calculation with remediation checklists.</span>
                     </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">type</span>
-                      <span className="text-purple-400">String</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">resultJson</span>
-                      <span className="text-emerald-400">String</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="text-slate-400">createdAt</span>
-                      <span className="text-slate-400">DateTime @default(now())</span>
+                    <li className="flex items-start gap-2">
+                      <span className="text-indigo-400">→</span>
+                      <span><strong>Fault-Isolated Probes:</strong> Scanners execute concurrently using <code>Promise.allSettled</code>.</span>
                     </li>
                   </ul>
                 </div>
