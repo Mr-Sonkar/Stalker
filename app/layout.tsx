@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,10 +12,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#03080e",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "Privacy Scanner | Personal Privacy & Exposure Intelligence",
+  title: "Privacy Scanner | Personal Privacy & Exposure Intelligence Dashboard",
   description:
-    "Scan, audit, and protect your personal digital footprint across the surface and dark web.",
+    "Unified single-page intelligence dashboard to scan digital footprints, monitor credential breaches, audit browser hardware entropy, and suppress broker listings.",
 };
 
 export default function RootLayout({
@@ -27,14 +33,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body
-        className="flex min-h-full flex-col bg-slate-950 font-sans text-slate-100 selection:bg-indigo-500 selection:text-white"
-        suppressHydrationWarning
-      >
-        <Navbar />
+      <head>
+        <meta name="color-scheme" content="dark" />
+      </head>
+      <body className="bg-grid-ambient" suppressHydrationWarning>
         {children}
       </body>
     </html>

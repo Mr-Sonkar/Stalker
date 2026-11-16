@@ -39,9 +39,10 @@ export async function POST(req: NextRequest) {
     const breaches = await checkEmailBreaches(email);
 
     return NextResponse.json({ breaches });
-  } catch (error: any) {
-    console.error("Breach check error:", error);
-    if (error.message.includes("429")) {
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error("Breach check error:", err);
+    if (err?.message?.includes("429")) {
       return NextResponse.json({ error: "Rate Limit Exceeded" }, { status: 429 });
     }
     return NextResponse.json({ error: "Failed to check breaches" }, { status: 500 });

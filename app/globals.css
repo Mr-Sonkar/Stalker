@@ -1,26 +1,192 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  /* Huemint Brand Palette */
+  --brand-white: #fafeff;
+  --brand-lime: #e0e260;
+  --brand-emerald: #169b5c;
+  --brand-cyan: #2ca6e9;
+
+  /* Deep Canvas & Surfaces */
+  --bg-canvas: #03080e;
+  --bg-sidebar: #040d18;
+  --bg-header: rgba(4, 13, 24, 0.85);
+  --bg-panel: #051322;
+  --bg-card: rgba(5, 19, 34, 0.75);
+  --bg-card-hover: rgba(9, 29, 50, 0.85);
+  --bg-card-elevated: #07192b;
+  --bg-input: #02060b;
+  --bg-chip: rgba(44, 166, 233, 0.08);
+
+  /* Borders */
+  --border-subtle: rgba(44, 166, 233, 0.12);
+  --border-card: rgba(44, 166, 233, 0.18);
+  --border-card-hover: rgba(44, 166, 233, 0.4);
+  --border-active: #169b5c;
+  --border-focus: #2ca6e9;
+
+  /* Typography Colors */
+  --text-primary: #fafeff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-highlight: #e0e260;
+  --text-link: #2ca6e9;
+  --text-success: #169b5c;
+  --text-danger: #ef4444;
+
+  /* Status Colors */
+  --status-clean: #169b5c;
+  --status-low: #2ca6e9;
+  --status-moderate: #e0e260;
+  --status-high: #f97316;
+  --status-critical: #ef4444;
+
+  /* Font Families */
+  --font-family-base: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Spacing */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 25px rgba(44, 166, 233, 0.15);
+  --shadow-emerald-glow: 0 0 20px rgba(22, 155, 92, 0.25);
+
+  /* Layout */
+  --sidebar-width: 270px;
+  --sidebar-collapsed-width: 76px;
+  --header-height: 64px;
+
+  /* Scrollbar */
+  --scrollbar-track: #03080e;
+  --scrollbar-thumb: #17384e;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* CSS Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  height: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  line-height: 1.5;
+  accent-color: var(--brand-emerald);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--brand-emerald);
+  color: #ffffff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-cyan);
+}
+
+/* Subtle Cyber Grid Background */
+.bg-grid-ambient {
+  background-size: 36px 36px;
+  background-image:
+    linear-gradient(to right, rgba(44, 166, 233, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 155, 92, 0.035) 1px, transparent 1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }

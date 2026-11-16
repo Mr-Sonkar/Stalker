@@ -4,13 +4,10 @@ import React, { useState } from "react";
 import {
   Monitor,
   Cpu,
-  Globe,
   Shield,
-  ShieldAlert,
   ShieldCheck,
   Fingerprint as FingerprintIcon,
   CheckCircle2,
-  XCircle,
   Copy,
   Check,
   Layers,
@@ -52,40 +49,40 @@ export function BrowserFingerprint() {
 
   if (!data) {
     return (
-      <div className="flex w-full max-w-4xl flex-col items-center justify-center rounded-3xl border border-slate-800 bg-slate-900/60 p-12 text-center backdrop-blur-xl shadow-2xl">
+      <div className="flex w-full max-w-4xl flex-col items-center justify-center rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-12 text-center backdrop-blur-xl shadow-2xl">
         <div className="relative mb-6">
-          <div className="absolute -inset-2 rounded-full bg-indigo-500/20 blur-xl animate-pulse" />
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-indigo-500/30 bg-slate-950 p-4 shadow-xl">
-            <FingerprintIcon className="h-10 w-10 text-indigo-400" />
+          <div className="absolute -inset-2 rounded-full bg-[#2ca6e9]/20 blur-xl animate-pulse" />
+          <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-[#2ca6e9]/30 bg-[#030912] p-4 shadow-xl">
+            <FingerprintIcon className="h-10 w-10 text-[#2ca6e9]" />
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="text-2xl font-bold text-[#fafeff] sm:text-3xl">
           Deep Multi-Vector Fingerprint Audit
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400">
+        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
           Probes hardware graphics rendering, WebGL shader precisions, system font metrics, audio synthesis dynamics, and detects whether your browser injects anti-tracking noise.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-950/80 px-3 py-1">
-            <Cpu className="h-3.5 w-3.5 text-indigo-400" /> GPU Shaders & Extensions
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2ca6e9]/20 bg-[#030912] px-3 py-1">
+            <Cpu className="h-3.5 w-3.5 text-[#2ca6e9]" /> GPU Shaders & Extensions
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-950/80 px-3 py-1">
-            <Type className="h-3.5 w-3.5 text-purple-400" /> 55+ System Font Probes
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#169b5c]/20 bg-[#030912] px-3 py-1">
+            <Type className="h-3.5 w-3.5 text-[#169b5c]" /> 55+ System Font Probes
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-950/80 px-3 py-1">
-            <Volume2 className="h-3.5 w-3.5 text-cyan-400" /> Audio Context & Speech
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e0e260]/20 bg-[#030912] px-3 py-1">
+            <Volume2 className="h-3.5 w-3.5 text-[#e0e260]" /> Audio Context & Speech
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-950/80 px-3 py-1">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" /> Brave / Noise Farbling Detection
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#169b5c]/20 bg-[#030912] px-3 py-1">
+            <ShieldCheck className="h-3.5 w-3.5 text-[#169b5c]" /> Brave / Noise Farbling Detection
           </span>
         </div>
 
         <button
           onClick={runTest}
           disabled={isLoading}
-          className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:opacity-95 disabled:opacity-50"
+          className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#169b5c] via-[#2ca6e9] to-[#169b5c] px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#169b5c]/25 transition-all hover:scale-[1.02] hover:opacity-95 disabled:opacity-50"
         >
           {isLoading ? (
             <>
@@ -94,7 +91,7 @@ export function BrowserFingerprint() {
             </>
           ) : (
             <>
-              <Sparkles className="h-4 w-4" />
+              <Sparkles className="h-4 w-4 text-[#e0e260]" />
               Start Deep Fingerprint Audit
             </>
           )}
@@ -106,29 +103,29 @@ export function BrowserFingerprint() {
   return (
     <div className="w-full max-w-5xl space-y-6">
       {/* Hero Summary Card */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 backdrop-blur-xl sm:p-8 shadow-2xl">
+      <div className="rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-6 backdrop-blur-xl sm:p-8 shadow-2xl">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-300">
-                <FingerprintIcon className="h-3.5 w-3.5 text-indigo-400" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2ca6e9]/30 bg-[#2ca6e9]/10 px-3 py-1 text-xs font-medium text-[#2ca6e9]">
+                <FingerprintIcon className="h-3.5 w-3.5 text-[#2ca6e9]" />
                 Composite Hardware ID
               </span>
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-[#e0e260]">
                 Audited: {new Date(data.scannedAt).toLocaleTimeString()}
               </span>
             </div>
 
             <div className="flex items-center gap-3 pt-1">
-              <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-cyan-400 break-all">
+              <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-[#2ca6e9] break-all">
                 {data.hash}
               </span>
               <button
                 onClick={() => copyHash(data.hash)}
-                className="shrink-0 rounded-lg border border-slate-700 bg-slate-800 p-2 text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
+                className="shrink-0 rounded-lg border border-[#2ca6e9]/20 bg-[#071927] p-2 text-slate-300 transition-colors hover:bg-[#16364a] hover:text-white"
                 title="Copy Fingerprint Hash"
               >
-                {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4 text-[#169b5c]" /> : <Copy className="h-4 w-4" />}
               </button>
             </div>
           </div>
@@ -137,7 +134,7 @@ export function BrowserFingerprint() {
             <button
               onClick={runTest}
               disabled={isLoading}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/90 px-4 py-2 text-xs font-semibold text-slate-200 transition-colors hover:bg-slate-700"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#2ca6e9]/25 bg-[#071927] px-4 py-2 text-xs font-semibold text-slate-200 transition-colors hover:bg-[#16364a] hover:text-[#fafeff]"
             >
               <RotateCcw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />
               Re-scan Signals
@@ -148,32 +145,32 @@ export function BrowserFingerprint() {
         {/* Metric Badges */}
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {/* Uniqueness Score */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+          <div className="rounded-2xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-4">
             <span className="text-xs font-medium text-slate-400">Surface Diversity (Heuristic)</span>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-2xl font-extrabold text-white">
+              <span className="text-2xl font-extrabold text-[#fafeff]">
                 {data.entropy.totalBits}
               </span>
               <span className="text-xs text-slate-400">bits</span>
             </div>
-            <p className="mt-1 text-xs font-medium text-purple-400">
+            <p className="mt-1 text-xs font-medium text-[#e0e260]">
               {data.entropy.uniquenessRatio} (est. {data.entropy.uniquenessPercentage}% distinct)
             </p>
           </div>
 
           {/* Defense Status */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+          <div className="rounded-2xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-4">
             <span className="text-xs font-medium text-slate-400">API Noise (Farbling)</span>
             <div className="mt-1 flex items-center gap-2">
               {data.tamper.defenseStatus === "ACTIVELY_DEFENDED" ? (
                 <>
-                  <ShieldCheck className="h-5 w-5 text-emerald-400" />
-                  <span className="text-base font-bold text-emerald-400">Active Farbling</span>
+                  <ShieldCheck className="h-5 w-5 text-[#169b5c]" />
+                  <span className="text-base font-bold text-[#169b5c]">Active Farbling</span>
                 </>
               ) : data.tamper.defenseStatus === "PARTIALLY_PROTECTED" ? (
                 <>
-                  <AlertTriangle className="h-5 w-5 text-amber-400" />
-                  <span className="text-base font-bold text-amber-400">Partial Farbling</span>
+                  <AlertTriangle className="h-5 w-5 text-[#e0e260]" />
+                  <span className="text-base font-bold text-[#e0e260]">Partial Farbling</span>
                 </>
               ) : (
                 <>
@@ -190,9 +187,9 @@ export function BrowserFingerprint() {
           </div>
 
           {/* Browser / Platform */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+          <div className="rounded-2xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-4">
             <span className="text-xs font-medium text-slate-400">Host Environment</span>
-            <div className="mt-1 text-base font-bold text-white truncate">
+            <div className="mt-1 text-base font-bold text-[#fafeff] truncate">
               {data.navigator.browserName}
             </div>
             <p className="mt-1 text-xs text-slate-400 truncate">
@@ -203,11 +200,11 @@ export function BrowserFingerprint() {
       </div>
 
       {/* Privacy vs Security Context Banner */}
-      <div className="rounded-2xl border border-indigo-500/20 bg-indigo-950/20 p-4 text-xs text-slate-300">
+      <div className="rounded-2xl border border-[#2ca6e9]/20 bg-[#04101e]/80 p-4 text-xs text-slate-300">
         <div className="flex items-start gap-3">
-          <Shield className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
+          <Shield className="h-4 w-4 text-[#2ca6e9] shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <span className="font-semibold text-white">Browser Distinguishability vs. System Security</span>
+            <span className="font-semibold text-[#fafeff]">Browser Distinguishability vs. System Security</span>
             <p className="text-slate-400 leading-relaxed">
               This audit measures how readily your browser configuration can be differentiated from others for cross-site tracking. A high diversity index does <strong>not</strong> indicate a security vulnerability, virus, or weak passwords—your computer’s antivirus, HTTPS, and operating system security remain fully protective. Similarly, &quot;Standard (No Noise)&quot; means graphics and audio APIs do not inject random farbling; traditional content blockers and network protections operate on separate layers.
             </p>
@@ -216,87 +213,87 @@ export function BrowserFingerprint() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex overflow-x-auto border-b border-slate-800 text-xs font-medium text-slate-400 scrollbar-none">
+      <div className="flex overflow-x-auto border-b border-[#2ca6e9]/15 text-xs font-medium text-slate-400 scrollbar-none">
         <button
           onClick={() => setActiveTab("overview")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "overview"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Layers className="h-4 w-4" /> Overview
+          <Layers className="h-4 w-4 text-[#2ca6e9]" /> Overview
         </button>
         <button
           onClick={() => setActiveTab("gpu")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "gpu"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Cpu className="h-4 w-4" /> GPU & WebGL ({data.webgl.extensions.length} ext)
+          <Cpu className="h-4 w-4 text-[#169b5c]" /> GPU & WebGL ({data.webgl.extensions.length} ext)
         </button>
         <button
           onClick={() => setActiveTab("fonts")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "fonts"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Type className="h-4 w-4" /> System Fonts ({data.fonts.detectedFonts.length})
+          <Type className="h-4 w-4 text-[#e0e260]" /> System Fonts ({data.fonts.detectedFonts.length})
         </button>
         <button
           onClick={() => setActiveTab("media")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "media"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Volume2 className="h-4 w-4" /> Audio & Speech ({data.media.voicesCount} voices)
+          <Volume2 className="h-4 w-4 text-[#2ca6e9]" /> Audio & Speech ({data.media.voicesCount} voices)
         </button>
         <button
           onClick={() => setActiveTab("display")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "display"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Palette className="h-4 w-4" /> Display & CSS
+          <Palette className="h-4 w-4 text-[#169b5c]" /> Display & CSS
         </button>
         <button
           onClick={() => setActiveTab("defenses")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "defenses"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Shield className="h-4 w-4" /> API Noise & Farbling
+          <Shield className="h-4 w-4 text-[#e0e260]" /> API Noise & Farbling
         </button>
         <button
           onClick={() => setActiveTab("raw")}
           className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
             activeTab === "raw"
-              ? "border-indigo-400 text-white font-semibold"
+              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
               : "border-transparent hover:text-slate-200"
           }`}
         >
-          <Code className="h-4 w-4" /> Raw Diagnostic JSON
+          <Code className="h-4 w-4 text-[#2ca6e9]" /> Raw Diagnostic JSON
         </button>
       </div>
 
       {/* Tab Panels */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
+      <div className="rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-6 backdrop-blur-xl">
         {activeTab === "overview" && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {/* Hardware Signals */}
               <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-3">
-                <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm">
+                <div className="flex items-center gap-2 text-[#2ca6e9] font-semibold text-sm">
                   <Cpu className="h-4 w-4" /> Hardware & Processing Core
                 </div>
                 <div className="space-y-2 text-xs">
@@ -325,7 +322,7 @@ export function BrowserFingerprint() {
 
               {/* Display & Optics */}
               <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-3">
-                <div className="flex items-center gap-2 text-purple-400 font-semibold text-sm">
+                <div className="flex items-center gap-2 text-[#169b5c] font-semibold text-sm">
                   <Monitor className="h-4 w-4" /> Screen & Optics Matrix
                 </div>
                 <div className="space-y-2 text-xs">
@@ -418,7 +415,7 @@ export function BrowserFingerprint() {
           <div className="space-y-6">
             <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-4">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <Cpu className="h-4 w-4 text-indigo-400" /> GPU Hardware Diagnostics
+                <Cpu className="h-4 w-4 text-[#2ca6e9]" /> GPU Hardware Diagnostics
               </h4>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-xs">
                 <div>
@@ -483,15 +480,15 @@ export function BrowserFingerprint() {
             <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                    <Type className="h-4 w-4 text-purple-400" />
+                  <h4 className="text-sm font-bold text-[#fafeff] flex items-center gap-2">
+                    <Type className="h-4 w-4 text-[#169b5c]" />
                     System Fonts Signature
                   </h4>
                   <p className="text-xs text-slate-400 mt-1">
                     Detected {data.fonts.detectedFonts.length} installed fonts out of {data.fonts.totalTested} probed system typography families.
                   </p>
                 </div>
-                <span className="font-mono text-xs text-purple-400 rounded-lg border border-purple-500/20 bg-purple-500/10 px-3 py-1">
+                <span className="font-mono text-xs text-[#e0e260] rounded-lg border border-[#e0e260]/30 bg-[#e0e260]/10 px-3 py-1">
                   Hash: {data.fonts.hash}
                 </span>
               </div>
@@ -500,9 +497,9 @@ export function BrowserFingerprint() {
                 {data.fonts.detectedFonts.map((font) => (
                   <span
                     key={font}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-500/20 bg-indigo-950/40 px-2.5 py-1 text-xs text-indigo-200"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#2ca6e9]/20 bg-[#071927] px-2.5 py-1 text-xs text-[#fafeff]"
                   >
-                    <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                    <CheckCircle2 className="h-3 w-3 text-[#169b5c]" />
                     {font}
                   </span>
                 ))}
@@ -539,7 +536,7 @@ export function BrowserFingerprint() {
 
               <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-3">
                 <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Monitor className="h-4 w-4 text-indigo-400" /> Media Devices Topology
+                  <Monitor className="h-4 w-4 text-[#2ca6e9]" /> Media Devices Topology
                 </h4>
                 <div className="space-y-2 text-xs font-mono">
                   <div className="flex justify-between py-1 border-b border-slate-800/60">
@@ -653,7 +650,7 @@ export function BrowserFingerprint() {
               {data.tamper.protectionScore < 20 && (
                 <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-xs text-slate-300 space-y-2">
                   <div className="flex items-center gap-2 font-semibold text-slate-200">
-                    <Shield className="h-4 w-4 text-indigo-400" />
+                    <Shield className="h-4 w-4 text-[#169b5c]" />
                     <span>Understanding &quot;Standard Exposure&quot; (0/100 Farbling)</span>
                   </div>
                   <p className="leading-relaxed text-slate-300">
