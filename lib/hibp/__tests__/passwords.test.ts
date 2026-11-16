@@ -18,23 +18,23 @@ global.TextEncoder = TextEncoder as any;
 describe("HIBP Passwords (k-Anonymity)", () => {
   it("generates SHA-1 correctly", async () => {
     const hash = await sha1("password123");
-    expect(hash).toBe("CBFDAAC3D322EBCDF39276FA2BCE2B1A7E117D06"); // Known SHA-1 for 'password123'
+    expect(hash).toBe("CBFDAC6008F9CAB4083784CBD1874F76618D2A97"); // Known SHA-1 for 'password123'
   });
 
   it("extracts only 5-character prefix", async () => {
-    const hash = "CBFDAAC3D322EBCDF39276FA2BCE2B1A7E117D06";
+    const hash = "CBFDAC6008F9CAB4083784CBD1874F76618D2A97";
     expect(getHashPrefix(hash)).toBe("CBFDA");
     expect(getHashPrefix(hash)).toHaveLength(5);
   });
 
   it("extracts suffix correctly", async () => {
-    const hash = "CBFDAAC3D322EBCDF39276FA2BCE2B1A7E117D06";
-    expect(getHashSuffix(hash)).toBe("AC3D322EBCDF39276FA2BCE2B1A7E117D06");
+    const hash = "CBFDAC6008F9CAB4083784CBD1874F76618D2A97";
+    expect(getHashSuffix(hash)).toBe("C6008F9CAB4083784CBD1874F76618D2A97");
   });
 
   it("parses known breached test password count", () => {
-    const mockResponse = `AC3D322EBCDF39276FA2BCE2B1A7E117D06:2147483647\n00000000000000000000000000000000000:10`;
-    const count = parsePwnedPasswordsResponse(mockResponse, "AC3D322EBCDF39276FA2BCE2B1A7E117D06");
+    const mockResponse = `C6008F9CAB4083784CBD1874F76618D2A97:2147483647\n00000000000000000000000000000000000:10`;
+    const count = parsePwnedPasswordsResponse(mockResponse, "C6008F9CAB4083784CBD1874F76618D2A97");
     expect(count).toBe(2147483647);
   });
 

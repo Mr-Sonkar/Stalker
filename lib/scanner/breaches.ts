@@ -16,6 +16,7 @@ const KNOWN_BREACH_CATALOG: BreachItem[] = [
     description:
       "A massive compilation of credentials harvested from info-stealer malware (RedLine, Racoon, Vidar) compiled into a targeted Naz.API database.",
     isVerified: true,
+    sources: ["HIBP"],
   },
   {
     name: "Twitter (200M Scraping Leak)",
@@ -32,6 +33,7 @@ const KNOWN_BREACH_CATALOG: BreachItem[] = [
     description:
       "In early 2023, over 200 million records containing email addresses paired with Twitter screen names and profile IDs were published on hacker forums.",
     isVerified: true,
+    sources: ["HIBP"],
   },
   {
     name: "Canva",
@@ -48,6 +50,7 @@ const KNOWN_BREACH_CATALOG: BreachItem[] = [
     description:
       "Graphic design tool Canva suffered a breach resulting in over 137 million user accounts being exfiltrated by threat actor Gnosticplayers.",
     isVerified: true,
+    sources: ["HIBP"],
   },
   {
     name: "Dropbox",
@@ -58,6 +61,7 @@ const KNOWN_BREACH_CATALOG: BreachItem[] = [
     description:
       "Cloud storage provider Dropbox suffered a breach exposing over 68 million email addresses and password hashes.",
     isVerified: true,
+    sources: ["HIBP"],
   },
   {
     name: "Adobe",
@@ -73,6 +77,7 @@ const KNOWN_BREACH_CATALOG: BreachItem[] = [
     description:
       "In October 2013, Adobe was breached exposing over 150 million customer records and symmetric 3DES-encrypted passwords.",
     isVerified: true,
+    sources: ["HIBP"],
   },
   {
     name: "Collection #1",
@@ -83,6 +88,7 @@ const KNOWN_BREACH_CATALOG: BreachItem[] = [
     description:
       "A collection of over 2.7 billion email address and password pairs aggregated from thousands of distinct individual breaches.",
     isVerified: true,
+    sources: ["HIBP"],
   },
 ];
 
@@ -123,6 +129,7 @@ export async function checkDataBreaches(email: string): Promise<BreachItem[]> {
           dataClasses: b.DataClasses || [],
           description: b.Description?.replace(/<[^>]+>/g, "") || "",
           isVerified: b.IsVerified ?? true,
+          sources: ["HIBP"] as ("HIBP" | "XposedOrNot")[],
         }));
       }
 

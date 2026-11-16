@@ -8,6 +8,7 @@ export interface BreachItem {
   dataClasses: string[];
   description: string;
   isVerified: boolean;
+  sources: ("HIBP" | "XposedOrNot")[];
 }
 
 export interface AccountExposure {
@@ -83,6 +84,11 @@ export interface ScanReport {
     exposedDataClasses: string[];
     exposedAccountsCount: number;
     hasPlaintextPasswordLeak: boolean;
+    providerBreakdown?: {
+      hibpCount: number;
+      xonCount: number;
+      verifiedByBoth: number;
+    };
   };
   domainInfo: EmailDomainInfo;
   breaches: BreachItem[];

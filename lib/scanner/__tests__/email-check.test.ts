@@ -1,5 +1,12 @@
 import { analyzeEmailDomain } from '../email-check';
 
+jest.mock('dns/promises', () => ({
+  resolveMx: jest.fn().mockImplementation(async (domain: string) => {
+    if (domain === 'invalid-domain.com') return [];
+    return [{ exchange: 'mx.example.com', priority: 10 }];
+  }),
+}));
+
 describe('analyzeEmailDomain', () => {
   it('should correctly identify disposable email domain', async () => {
     const result = await analyzeEmailDomain('test@mailinator.com');
@@ -15,8 +22,6 @@ describe('analyzeEmailDomain', () => {
 
   it('should correctly identify domain not in disposable or public lists', async () => {
     const result = await analyzeEmailDomain('test@example.com');
-    // example.com is not in DISPOSABLE_PROVIDERS nor POPULAR_PUBLIC_PROVIDERS
-    // So it should be "corporate" (as per the else block in the function)
     expect(result.providerType).toBe('corporate');
   });
 

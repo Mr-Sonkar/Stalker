@@ -11,34 +11,45 @@ import { PasswordAuditView } from "./views/PasswordAuditView";
 import { FingerprintView } from "./views/FingerprintView";
 import { BrokerOptOutView } from "./views/BrokerOptOutView";
 import { LegalGeneratorView } from "./views/LegalGeneratorView";
-import { ShieldCheck } from "lucide-react";
+
+const VALID_VIEWS: DashboardViewKey[] = [
+  "overview",
+  "scanner",
+  "breach-check",
+  "password",
+  "fingerprint",
+  "opt-out",
+  "privacy-generator",
+];
 
 interface DashboardAppProps {
   initialView?: DashboardViewKey;
 }
 
 export function DashboardApp({ initialView = "overview" }: DashboardAppProps) {
-  const [activeView, setActiveView] = useState<DashboardViewKey>(initialView);
+  const [activeView, setActiveView] = useState<DashboardViewKey>(() => {
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.replace("#", "") as DashboardViewKey;
+      if (VALID_VIEWS.includes(hash)) {
+        return hash;
+      }
+    }
+    return initialView;
+  });
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Sync hash on initial load
+  // Sync with browser navigation (back/forward or manual hash updates)
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "") as DashboardViewKey;
-      const validViews: DashboardViewKey[] = [
-        "overview",
-        "scanner",
-        "breach-check",
-        "password",
-        "fingerprint",
-        "opt-out",
-        "privacy-generator",
-      ];
-      if (validViews.includes(hash)) {
+      if (VALID_VIEWS.includes(hash)) {
         setActiveView(hash);
       }
-    }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   const handleSelectView = (view: DashboardViewKey) => {

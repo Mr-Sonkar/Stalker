@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Shield, ShieldCheck, Lock, Terminal, Heart } from "lucide-react";
+import { Shield, ShieldCheck, Lock, Terminal } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export function Footer() {

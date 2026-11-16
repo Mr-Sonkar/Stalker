@@ -11,14 +11,24 @@ import {
   Users,
   AlertCircle,
   AlertTriangle,
+  Layers,
+  ShieldCheck,
 } from "lucide-react";
-import { BreachResult } from "@/lib/hibp/email";
+import { BreachResult } from "@/lib/xposedornot/email";
 import styles from "./BreachRadarView.module.css";
+
+interface ProviderComparison {
+  hibpCount: number;
+  xonCount: number;
+  verifiedByBoth: number;
+  totalUnique: number;
+}
 
 export function BreachRadarView() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [breaches, setBreaches] = useState<BreachResult[] | null>(null);
+  const [providerComparison, setProviderComparison] = useState<ProviderComparison | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [searchedEmail, setSearchedEmail] = useState<string>("");
 
@@ -30,6 +40,7 @@ export function BreachRadarView() {
     setIsLoading(true);
     setError(null);
     setBreaches(null);
+    setProviderComparison(null);
     setSearchedEmail(cleanEmail);
 
     try {
@@ -48,6 +59,7 @@ export function BreachRadarView() {
       }
 
       setBreaches(data.breaches || []);
+      setProviderComparison(data.providerComparison || null);
     } catch (err: unknown) {
       const errorObj = err as Error;
       setError(errorObj.message || "An unexpected error occurred.");
@@ -93,13 +105,13 @@ export function BreachRadarView() {
       <div className={styles.headerCard}>
         <div className={styles.statusPill}>
           <span className={styles.statusDot} />
-          Dark Web &amp; Breach Intelligence
+          Multi-Provider Dark Web Intelligence
         </div>
         <h1 className={styles.title}>
           Identity Breach <span className={styles.titleAccent}>Radar</span>
         </h1>
         <p className={styles.subtitle}>
-          Investigate compromised credentials, paste dumps, and dark web exfiltrations across commercial and enterprise platforms via Have I Been Pwned intelligence.
+          Cross-examine compromised credentials, paste dumps, and dark web exfiltrations using synchronized Have I Been Pwned primary breach feeds and XposedOrNot verification analytics.
         </p>
       </div>
 
@@ -152,7 +164,7 @@ export function BreachRadarView() {
               <CheckCircle2 size={44} color="var(--brand-emerald)" />
               <div className={styles.cleanTitle}>Clean Record — Zero Breaches Detected</div>
               <p className={styles.cleanDesc}>
-                We found no records associated with <strong>{searchedEmail}</strong> in any cataloged public dumps, stealer logs, or compromised databases.
+                We found no records associated with <strong>{searchedEmail}</strong> across Have I Been Pwned or XposedOrNot threat intelligence corpuses.
               </p>
             </div>
           ) : (
@@ -185,6 +197,113 @@ export function BreachRadarView() {
                 </div>
               </div>
 
+              {/* Provider Comparison & Cross-Correlation */}
+              <div className={styles.sectionCard}>
+                <div className={styles.sectionHeader}>
+                  <div className={styles.sectionTitleGroup}>
+                    <Layers size={18} color="var(--brand-chartreuse)" />
+                    <h3 className={styles.sectionTitle}>Dual-Provider Intelligence Attribution</h3>
+                  </div>
+                  <span className={styles.sectionBadge}>
+                    Target: {searchedEmail}
+                  </span>
+                </div>
+
+                <div className={styles.providerGrid}>
+                  <div className={`${styles.providerCard} ${styles.providerCardHibp}`}>
+                    <div className={`${styles.providerCardHeader} ${styles.providerCardHeaderHibp}`}>
+                      <span>Have I Been Pwned</span>
+                      <span>Primary Feed</span>
+                    </div>
+                    <div className={styles.providerCount}>
+                      {providerComparison?.hibpCount ?? breaches.filter((b) => b.sources?.includes("HIBP")).length}
+                    </div>
+                    <div className={styles.providerDesc}>Global commercial dumps, stealer logs, and credential exfiltrations</div>
+                  </div>
+
+                  <div className={`${styles.providerCard} ${styles.providerCardXon}`}>
+                    <div className={`${styles.providerCardHeader} ${styles.providerCardHeaderXon}`}>
+                      <span>XposedOrNot</span>
+                      <span>Secondary Verification</span>
+                    </div>
+                    <div className={styles.providerCount}>
+                      {providerComparison?.xonCount ?? breaches.filter((b) => b.sources?.includes("XposedOrNot")).length}
+                    </div>
+                    <div className={styles.providerDesc}>Independent breach analytics, dark web indexes, and paste monitors</div>
+                  </div>
+
+                  <div className={`${styles.providerCard} ${styles.providerCardBoth}`}>
+                    <div className={`${styles.providerCardHeader} ${styles.providerCardHeaderBoth}`}>
+                      <span>Dual-Verified</span>
+                      <span>Cross-Confirmed</span>
+                    </div>
+                    <div className={styles.providerCount}>
+                      {providerComparison?.verifiedByBoth ??
+                        breaches.filter((b) => b.sources?.includes("HIBP") && b.sources?.includes("XposedOrNot")).length}
+                    </div>
+                    <div className={styles.providerDesc}>Incidents independently confirmed across both intelligence providers</div>
+                  </div>
+                </div>
+
+                {/* Combined Findings Table */}
+                <div className={styles.tableWrapper}>
+                  <table className={styles.providerTable}>
+                    <thead>
+                      <tr>
+                        <th>Incident Finding</th>
+                        <th>Domain</th>
+                        <th>HIBP Primary</th>
+                        <th>XON Secondary</th>
+                        <th>Breach Date</th>
+                        <th>Attribution</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedBreaches.map((breach, i) => {
+                        const hasHibp = breach.sources?.includes("HIBP");
+                        const hasXon = breach.sources?.includes("XposedOrNot");
+                        const isBoth = hasHibp && hasXon;
+
+                        return (
+                          <tr key={i}>
+                            <td style={{ fontWeight: 600 }}>{breach.title || breach.name}</td>
+                            <td style={{ color: "var(--brand-cyan)", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>
+                              {breach.domain || "—"}
+                            </td>
+                            <td>
+                              {hasHibp ? (
+                                <span className={`${styles.sourceBadge} ${styles.sourceBadgeHibp}`}>✓ Detected</span>
+                              ) : (
+                                <span className={styles.sourceNone}>—</span>
+                              )}
+                            </td>
+                            <td>
+                              {hasXon ? (
+                                <span className={`${styles.sourceBadge} ${styles.sourceBadgeXon}`}>✓ Detected</span>
+                              ) : (
+                                <span className={styles.sourceNone}>—</span>
+                              )}
+                            </td>
+                            <td style={{ color: "var(--text-secondary)", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>
+                              {new Date(breach.breachDate).toLocaleDateString(undefined, { year: "numeric", month: "short" })}
+                            </td>
+                            <td>
+                              {isBoth ? (
+                                <span className={`${styles.sourceBadge} ${styles.sourceBadgeBoth}`}>Confirmed by Both</span>
+                              ) : (
+                                <span className={`${styles.sourceBadge} ${hasHibp ? styles.sourceBadgeHibp : styles.sourceBadgeXon}`}>
+                                  {hasHibp ? "HIBP Exclusive" : "XON Exclusive"}
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               {/* Data Classes Breakdown */}
               <div className={styles.sectionCard}>
                 <div className={styles.sectionHeader}>
@@ -207,9 +326,8 @@ export function BreachRadarView() {
                     return (
                       <div
                         key={idx}
-                        className={`${styles.categoryPill} ${
-                          isSensitive ? styles.categoryPillSensitive : ""
-                        }`}
+                        className={`${styles.categoryPill} ${isSensitive ? styles.categoryPillSensitive : ""
+                          }`}
                       >
                         <div className={styles.categoryPillContent}>
                           {isSensitive && (
@@ -218,9 +336,8 @@ export function BreachRadarView() {
                           <span>{className}</span>
                         </div>
                         <span
-                          className={`${styles.catCountBadge} ${
-                            isSensitive ? styles.catCountSensitive : ""
-                          }`}
+                          className={`${styles.catCountBadge} ${isSensitive ? styles.catCountSensitive : ""
+                            }`}
                         >
                           {count}
                         </span>
@@ -248,7 +365,22 @@ export function BreachRadarView() {
                       <div className={styles.timelineDot} />
                       <div className={styles.breachItemCard}>
                         <div className={styles.breachTop}>
-                          <span className={styles.breachName}>{breach.title}</span>
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                            <span className={styles.breachName}>{breach.title}</span>
+                            {breach.sources && (
+                              <div style={{ display: "flex", gap: "4px" }}>
+                                {breach.sources.map((src) => (
+                                  <span
+                                    key={src}
+                                    className={`${styles.sourceBadge} ${src === "HIBP" ? styles.sourceBadgeHibp : styles.sourceBadgeXon
+                                      }`}
+                                  >
+                                    {src}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                           <span className={styles.breachDate}>
                             {new Date(breach.breachDate).toLocaleDateString(undefined, {
                               year: "numeric",
@@ -279,9 +411,8 @@ export function BreachRadarView() {
                             return (
                               <span
                                 key={j}
-                                className={`${styles.dataTag} ${
-                                  isPwd ? styles.dataTagPassword : ""
-                                }`}
+                                className={`${styles.dataTag} ${isPwd ? styles.dataTagPassword : ""
+                                  }`}
                               >
                                 {dc}
                               </span>

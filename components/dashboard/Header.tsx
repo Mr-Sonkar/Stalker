@@ -5,7 +5,6 @@ import {
   Menu,
   ShieldCheck,
   ServerOff,
-  Cpu,
   ChevronRight,
 } from "lucide-react";
 import styles from "./Header.module.css";

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { BreachResult } from "@/lib/hibp/email";
+import { BreachResult } from "@/lib/xposedornot/email";
 import { Database, AlertCircle } from "lucide-react";
 import styles from "./BreachDataBreakdown.module.css";
 
@@ -10,7 +10,7 @@ export function BreachDataBreakdown({ breaches }: { breaches: BreachResult[] }) 
 
     const counts: Record<string, number> = {};
     breaches.forEach((b) => {
-      b.dataClasses.forEach((dc) => {
+      (b.dataClasses || []).forEach((dc: string) => {
         counts[dc] = (counts[dc] || 0) + 1;
       });
     });
@@ -60,9 +60,8 @@ export function BreachDataBreakdown({ breaches }: { breaches: BreachResult[] }) 
                 <span className={styles.className}>{className}</span>
               </div>
               <span
-                className={`${styles.countBadge} ${
-                  isSensitive ? styles.countBadgeSensitive : ""
-                }`}
+                className={`${styles.countBadge} ${isSensitive ? styles.countBadgeSensitive : ""
+                  }`}
               >
                 {count}
               </span>

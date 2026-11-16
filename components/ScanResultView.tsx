@@ -20,7 +20,7 @@ interface ScanResultViewProps {
   onReset: () => void;
 }
 
-export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProps) {
+export function ScanResultView({ report, onReset }: ScanResultViewProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExportPDF = async () => {
@@ -170,9 +170,31 @@ export function ScanResultView({ report, scanDbId, onReset }: ScanResultViewProp
             {report.breaches.map((breach, idx) => (
               <div key={idx} className={styles.findingItem}>
                 <div className={styles.findingItemHeader}>
-                  <span className={styles.findingName}>
-                    {breach.name} ({breach.domain})
-                  </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                    <span className={styles.findingName}>
+                      {breach.name} ({breach.domain})
+                    </span>
+                    {breach.sources && breach.sources.length > 0 && (
+                      <div style={{ display: "flex", gap: "4px" }}>
+                        {breach.sources.map((s) => (
+                          <span
+                            key={s}
+                            style={{
+                              fontSize: "10px",
+                              fontWeight: 700,
+                              padding: "2px 6px",
+                              borderRadius: "4px",
+                              background: s === "HIBP" ? "rgba(6, 182, 212, 0.15)" : "rgba(16, 185, 129, 0.15)",
+                              color: s === "HIBP" ? "#38bdf8" : "#34d399",
+                              border: `1px solid ${s === "HIBP" ? "rgba(6, 182, 212, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
+                            }}
+                          >
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                   <span className={styles.findingMeta}>
                     Date: {breach.breachDate} • {breach.pwnCount?.toLocaleString()} victims
                   </span>

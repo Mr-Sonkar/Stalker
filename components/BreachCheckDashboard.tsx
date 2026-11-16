@@ -6,7 +6,7 @@ import { ShieldAlert, Key, Search, Loader2, CheckCircle2 } from "lucide-react";
 import { BreachTimeline } from "./BreachTimeline";
 import { BreachDataBreakdown } from "./BreachDataBreakdown";
 import { PasswordCheck } from "./PasswordCheck";
-import { BreachResult } from "@/lib/hibp/email";
+import { BreachResult } from "@/lib/xposedornot/email";
 import styles from "./BreachCheckDashboard.module.css";
 
 export function BreachCheckDashboard() {

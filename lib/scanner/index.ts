@@ -4,6 +4,7 @@ import { checkGravatarExposure } from "./gravatar";
 import { analyzeEmailDomain } from "./email-check";
 import { checkDataBreaches } from "./breaches";
 import { pastesScan } from "./pastes";
+import { checkXposedOrNotAnalytics } from "@/lib/xposedornot/email";
 import { runMetadataScan } from "./metadata";
 import { runProfileTextScan } from "./profile-text";
 
@@ -19,11 +20,20 @@ export async function runPrivacyScan(
   const email = targetEmail.trim().toLowerCase();
   const scanId = "scan_" + crypto.randomBytes(6).toString("hex");
 
-  // Run all scanners concurrently with failure isolation
-  const [domainRes, gravatarRes, breachRes, pasteRes, metadataRes, profileTextRes] = await Promise.allSettled([
+  // Run all scanners concurrently with failure isolation (HIBP + XposedOrNot dual engine)
+  const [
+    domainRes,
+    gravatarRes,
+    hibpBreachRes,
+    xonAnalyticsRes,
+    pasteRes,
+    metadataRes,
+    profileTextRes,
+  ] = await Promise.allSettled([
     email ? analyzeEmailDomain(email) : Promise.resolve(null),
     email ? checkGravatarExposure(email) : Promise.resolve(null),
     email ? checkDataBreaches(email) : Promise.resolve([]),
+    email ? checkXposedOrNotAnalytics(email) : Promise.resolve({ breaches: [], pastes: [] }),
     email ? pastesScan(email) : Promise.resolve({ success: true, data: [] }),
     fileData ? runMetadataScan(fileData.fileName, fileData.fileType, fileData.buffer) : Promise.resolve([]),
     (bioText || screenshotBuffer) ? runProfileTextScan(bioText, screenshotBuffer, screenshotMimeType) : Promise.resolve([]),
@@ -44,13 +54,79 @@ export async function runPrivacyScan(
     accountExposures.push(gravatarRes.value);
   }
 
-  const breaches: BreachItem[] = breachRes.status === "fulfilled" && breachRes.value ? breachRes.value : [];
+  // --- Multi-Source Intelligence Fusion & Deduplication ---
+  const hibpBreaches: BreachItem[] =
+    hibpBreachRes.status === "fulfilled" && hibpBreachRes.value ? hibpBreachRes.value : [];
+  const xonData =
+    xonAnalyticsRes.status === "fulfilled" && xonAnalyticsRes.value
+      ? xonAnalyticsRes.value
+      : { breaches: [], pastes: [] };
+  const xonBreaches = xonData.breaches;
 
-  // Pastes
-  const pasteFindings: PasteFinding[] =
+  const breachMap = new Map<string, BreachItem>();
+  let hibpCount = 0;
+  let xonCount = 0;
+  let verifiedByBoth = 0;
+
+  // 1. Process HIBP breaches (Primary)
+  for (const b of hibpBreaches) {
+    hibpCount++;
+    const key = (b.domain || b.name).toLowerCase().trim();
+    breachMap.set(key, {
+      ...b,
+      sources: ["HIBP"],
+    });
+  }
+
+  // 2. Merge XposedOrNot breaches (Secondary verification)
+  for (const b of xonBreaches) {
+    xonCount++;
+    const key = (b.domain || b.name).toLowerCase().trim();
+    if (breachMap.has(key)) {
+      verifiedByBoth++;
+      const existing = breachMap.get(key)!;
+      const mergedDataClasses = Array.from(new Set([...existing.dataClasses, ...b.dataClasses]));
+      breachMap.set(key, {
+        ...existing,
+        dataClasses: mergedDataClasses,
+        pwnCount: existing.pwnCount || b.affectedAccounts || 0,
+        isVerified: existing.isVerified || b.verified,
+        sources: ["HIBP", "XposedOrNot"],
+      });
+    } else {
+      breachMap.set(key, {
+        name: b.name,
+        domain: b.domain,
+        breachDate: b.breachDate,
+        pwnCount: b.affectedAccounts,
+        dataClasses: b.dataClasses,
+        description: `Exposed records verified through XposedOrNot breach analytics.`,
+        isVerified: b.verified,
+        sources: ["XposedOrNot"],
+      });
+    }
+  }
+
+  const breaches = Array.from(breachMap.values());
+
+  // Pastes: Combine HIBP paste account lookups with XposedOrNot paste monitor
+  const hibpPastes: PasteFinding[] =
     pasteRes.status === "fulfilled" && pasteRes.value.success && pasteRes.value.data
       ? pasteRes.value.data
       : [];
+  const xonPastes = xonData.pastes;
+
+  const pasteMap = new Map<string, PasteFinding>();
+  for (const p of hibpPastes) {
+    pasteMap.set(p.id.toLowerCase(), p);
+  }
+  for (const p of xonPastes) {
+    const key = (p.id || p.title).toLowerCase();
+    if (!pasteMap.has(key)) {
+      pasteMap.set(key, p);
+    }
+  }
+  const pasteFindings = Array.from(pasteMap.values());
 
   const metadataFindings = metadataRes.status === "fulfilled" ? metadataRes.value : [];
   const profileTextFindings = profileTextRes.status === "fulfilled" ? profileTextRes.value : [];
@@ -197,6 +273,11 @@ export async function runPrivacyScan(
       exposedDataClasses: Array.from(allDataClasses),
       exposedAccountsCount: accountExposures.length,
       hasPlaintextPasswordLeak,
+      providerBreakdown: {
+        hibpCount,
+        xonCount,
+        verifiedByBoth,
+      },
     },
     domainInfo,
     breaches,

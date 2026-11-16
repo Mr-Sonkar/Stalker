@@ -27,10 +27,10 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
   const stats = [
     {
       label: "Account Exposures",
-      value: "HIBP Feed",
+      value: "HIBP + XON",
       icon: ShieldAlert,
       iconClass: styles.statIconBreach,
-      footer: "Real-time query ready",
+      footer: "Synchronized dual feeds",
       actionView: "breach-check" as DashboardViewKey,
     },
     {
@@ -70,8 +70,8 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
     {
       key: "breach-check" as DashboardViewKey,
       name: "Breach Radar & Compromise",
-      desc: "Search global credential dump archives, inspect chronological breach timelines, and categorize exposed data classes.",
-      badge: "HIBP v3",
+      desc: "Cross-correlate global credential dump archives with HIBP primary intelligence and XposedOrNot secondary analytics.",
+      badge: "HIBP + XON",
       icon: ShieldAlert,
     },
     {

@@ -11,6 +11,7 @@ describe('checkDataBreaches', () => {
     expect(Array.isArray(result)).toBe(true);
     // Test emails should trigger demo data
     expect(result.length).toBeGreaterThan(0);
+    expect(result[0].sources).toContain('HIBP');
   });
 
   it('should return test breaches for admin email', async () => {

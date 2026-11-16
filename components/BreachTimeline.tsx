@@ -1,5 +1,5 @@
 import React from "react";
-import { BreachResult } from "@/lib/hibp/email";
+import { BreachResult } from "@/lib/xposedornot/email";
 import { Calendar, Users, Globe } from "lucide-react";
 import styles from "./BreachTimeline.module.css";
 
@@ -61,14 +61,13 @@ export function BreachTimeline({ breaches }: { breaches: BreachResult[] }) {
               </div>
 
               <div className={styles.dataPillsRow}>
-                {breach.dataClasses.map((dc, j) => {
+                {(breach.dataClasses || []).map((dc: string, j: number) => {
                   const isPassword = dc.toLowerCase().includes("password");
                   return (
                     <span
                       key={j}
-                      className={`${styles.dataPill} ${
-                        isPassword ? styles.dataPillPassword : ""
-                      }`}
+                      className={`${styles.dataPill} ${isPassword ? styles.dataPillPassword : ""
+                        }`}
                     >
                       {dc}
                     </span>
