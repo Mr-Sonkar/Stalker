@@ -182,7 +182,7 @@ export function LegalGeneratorView() {
         <div className={styles.formCard}>
           <div>
             <div className={styles.sectionHeading}>1. Statutory Framework</div>
-            <div className={styles.tabGroup} style={{ marginTop: "8px" }}>
+            <div className={styles.tabGroup}>
               {(["GDPR", "CCPA", "GENERAL"] as Jurisdiction[]).map((j) => (
                 <button
                   key={j}
@@ -202,7 +202,7 @@ export function LegalGeneratorView() {
 
           <div>
             <div className={styles.sectionHeading}>2. Exercise of Rights</div>
-            <div className={styles.tabGroup} style={{ marginTop: "8px" }}>
+            <div className={styles.tabGroup}>
               <button
                 type="button"
                 className={`${styles.tabBtn} ${requestType === "DELETE" ? styles.tabBtnActive : ""}`}
@@ -232,7 +232,7 @@ export function LegalGeneratorView() {
               <Building2 size={14} />
               <span>3. Target Entity Presets</span>
             </div>
-            <div className={styles.quickFillRow} style={{ marginTop: "8px" }}>
+            <div className={styles.quickFillRow}>
               <span className={styles.quickLabel}>Quick Fill:</span>
               {POPULAR_COMPANIES.map((c) => (
                 <button

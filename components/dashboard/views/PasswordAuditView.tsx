@@ -50,11 +50,11 @@ export function PasswordAuditView() {
   const entropyScore = entropyResult ? entropyResult.score : 0;
 
   const scoreLabels = [
-    { label: "Very Weak", color: styles.segmentActiveRed, textColor: "#ef4444" },
-    { label: "Weak", color: styles.segmentActiveOrange, textColor: "#f97316" },
-    { label: "Fair", color: styles.segmentActiveAmber, textColor: "var(--brand-chartreuse)" },
-    { label: "Good", color: styles.segmentActiveCyan, textColor: "var(--brand-cyan)" },
-    { label: "Strong & Resilient", color: styles.segmentActiveEmerald, textColor: "var(--brand-emerald)" },
+    { label: "Very Weak", color: styles.segmentActiveRed, textClass: styles.ratingTextRed },
+    { label: "Weak", color: styles.segmentActiveOrange, textClass: styles.ratingTextOrange },
+    { label: "Fair", color: styles.segmentActiveAmber, textClass: styles.ratingTextAmber },
+    { label: "Good", color: styles.segmentActiveCyan, textClass: styles.ratingTextCyan },
+    { label: "Strong & Resilient", color: styles.segmentActiveEmerald, textClass: styles.ratingTextEmerald },
   ];
 
   const currentScoreConfig = scoreLabels[entropyScore] || scoreLabels[0];
@@ -132,7 +132,7 @@ export function PasswordAuditView() {
             <span className={styles.tagPill}>HIBP v3</span>
           </div>
 
-          <form onSubmit={handleBreachCheck} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <form onSubmit={handleBreachCheck} className={styles.formColumn}>
             <div className={styles.inputGroup}>
               <input
                 type={showBreachPassword ? "text" : "password"}
@@ -195,7 +195,7 @@ export function PasswordAuditView() {
                     Do not use this password for any account. It has been exposed in public wordlists and is actively weaponized in credential-stuffing attacks.
                   </p>
                   {breachResult.hashPrefix && (
-                    <div style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--text-tertiary)" }}>
+                    <div className={styles.hashPrefixNote}>
                       Queried Hash Prefix: {breachResult.hashPrefix}***** (Zero plaintext transmitted)
                     </div>
                   )}
@@ -210,7 +210,7 @@ export function PasswordAuditView() {
                     This password was not detected in any monitored breach collections (0 occurrences). While clean in public dumps, ensure it also meets entropy standards before use.
                   </p>
                   {breachResult.hashPrefix && (
-                    <div style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--text-tertiary)" }}>
+                    <div className={styles.hashPrefixNote}>
                       Queried Hash Prefix: {breachResult.hashPrefix}***** (k-Anonymity Verified)
                     </div>
                   )}
@@ -244,7 +244,7 @@ export function PasswordAuditView() {
             <span className={styles.tagPill}>Offline Core</span>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div className={styles.entropyContainer}>
             <div className={styles.inputGroup}>
               <input
                 type={showEntropyPassword ? "text" : "password"}
@@ -265,14 +265,13 @@ export function PasswordAuditView() {
             </div>
 
             {entropyPassword ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div className={styles.entropyActiveContainer}>
                 {/* Meter segments */}
                 <div className={styles.meterGroup}>
                   <div className={styles.meterHeader}>
                     <span className={styles.meterLabel}>Entropy Resistance:</span>
                     <span
-                      className={styles.ratingText}
-                      style={{ color: currentScoreConfig.textColor }}
+                      className={`${styles.ratingText} ${currentScoreConfig.textClass}`}
                     >
                       {currentScoreConfig.label}
                     </span>
@@ -313,18 +312,18 @@ export function PasswordAuditView() {
 
                     {entropyResult.feedback.warning && (
                       <div className={styles.warningBox}>
-                        <AlertTriangle size={15} style={{ flexShrink: 0 }} />
+                        <AlertTriangle size={15} className={styles.warningIcon} />
                         <span>{entropyResult.feedback.warning}</span>
                       </div>
                     )}
 
                     {entropyResult.feedback.suggestions &&
                       entropyResult.feedback.suggestions.length > 0 && (
-                        <div style={{ marginTop: "4px" }}>
-                          <span style={{ fontSize: "0.7rem", color: "var(--text-tertiary)", fontWeight: 700, textTransform: "uppercase" }}>
+                        <div className={styles.recommendationsWrapper}>
+                          <span className={styles.recommendationsTitle}>
                             Hardening Recommendations
                           </span>
-                          <ul className={styles.tipsList} style={{ marginTop: "6px" }}>
+                          <ul className={styles.tipsList}>
                             {entropyResult.feedback.suggestions.map((s, idx) => (
                               <li key={idx} className={styles.tipItem}>
                                 <CheckCircle2 className={styles.tipIcon} size={14} />
@@ -338,7 +337,7 @@ export function PasswordAuditView() {
                 )}
               </div>
             ) : (
-              <div style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", padding: "8px 0" }}>
+              <div className={styles.emptyEntropyNote}>
                 Type any sample password or phrase above to evaluate dictionary resistance, repetitive keystrokes, and brute-force complexity locally in real-time.
               </div>
             )}

@@ -24,6 +24,12 @@
   justify-content: space-between;
   padding: 0 var(--space-md);
   border-bottom: 1px solid var(--border-subtle);
+  transition: padding var(--transition-normal);
+}
+
+.collapsed .brandContainer {
+  padding: 0;
+  justify-content: center;
 }
 
 .brandLink {
@@ -32,6 +38,11 @@
   gap: var(--space-sm);
   cursor: pointer;
   overflow: hidden;
+  text-decoration: none;
+}
+
+.collapsed .brandLink {
+  justify-content: center;
 }
 
 .brandIcon {
@@ -45,6 +56,11 @@
   color: var(--brand-white);
   box-shadow: 0 4px 12px rgba(22, 155, 92, 0.3);
   flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.brandLink:hover .brandIcon {
+  transform: scale(1.04);
 }
 
 .brandText {
@@ -58,6 +74,7 @@
   font-weight: 800;
   color: var(--brand-white);
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .brandSubtitle {
@@ -65,15 +82,24 @@
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .navContainer {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--space-md) var(--space-sm);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-xs);
 }
 
 .navGroupTitle {
@@ -82,22 +108,29 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-muted);
-  padding: var(--space-sm) var(--space-sm) var(--space-xs);
-  margin-top: var(--space-xs);
+  padding: var(--space-sm) var(--space-sm) var(--space-2xs);
+  margin-top: var(--space-2xs);
 }
 
 .navItem {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: 10px 12px;
+  padding: 9px 12px;
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 500;
-  transition: all var(--transition-fast);
+  transition: all var(--duration-fast) var(--ease-out);
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-align: left;
+}
+
+.collapsed .navItem {
+  padding: 10px 0;
+  justify-content: center;
 }
 
 .navItem:hover {
@@ -106,10 +139,15 @@
 }
 
 .navItemActive {
-  background: linear-gradient(90deg, rgba(22, 155, 92, 0.22), rgba(44, 166, 233, 0.12));
+  background: linear-gradient(90deg, rgba(22, 155, 92, 0.2), rgba(44, 166, 233, 0.1));
   color: var(--brand-white);
   font-weight: 600;
   border-left: 3px solid var(--brand-emerald);
+}
+
+.collapsed .navItemActive {
+  border-left: none;
+  background: rgba(22, 155, 92, 0.22);
 }
 
 .navItemActive .itemIcon {
@@ -121,7 +159,7 @@
   height: 18px;
   flex-shrink: 0;
   color: var(--text-muted);
-  transition: color var(--transition-fast);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .navItem:hover .itemIcon {
@@ -133,6 +171,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
 .itemBadge {
@@ -143,6 +182,7 @@
   background-color: rgba(224, 226, 96, 0.12);
   color: var(--brand-lime);
   border: 1px solid rgba(224, 226, 96, 0.25);
+  line-height: 1.2;
 }
 
 .itemBadgeActive {
@@ -157,13 +197,19 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  transition: padding var(--transition-normal);
+}
+
+.collapsed .sidebarFooter {
+  padding: var(--space-sm);
+  align-items: center;
 }
 
 .statusCard {
   background-color: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 10px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -188,11 +234,13 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--brand-white);
+  line-height: 1.2;
 }
 
 .statusSub {
   font-size: 10px;
   color: var(--brand-lime);
+  font-weight: 600;
 }
 
 .collapseButton {
@@ -205,7 +253,7 @@
   background-color: var(--bg-card);
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
-  transition: all var(--transition-fast);
+  transition: all var(--duration-fast) var(--ease-out);
 }
 
 .collapseButton:hover {
@@ -226,7 +274,8 @@
     left: 0;
     bottom: 0;
     transform: translateX(-100%);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-2xl);
+    z-index: 50;
   }
 
   .sidebarOpen {
@@ -237,8 +286,9 @@
     display: block;
     position: fixed;
     inset: 0;
-    background-color: rgba(3, 8, 14, 0.7);
-    backdrop-filter: blur(4px);
-    z-index: 39;
+    background-color: rgba(15, 23, 42, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 45;
   }
 }

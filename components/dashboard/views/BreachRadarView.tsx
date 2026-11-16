@@ -211,9 +211,9 @@ export function BreachRadarView() {
                           isSensitive ? styles.categoryPillSensitive : ""
                         }`}
                       >
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <div className={styles.categoryPillContent}>
                           {isSensitive && (
-                            <AlertTriangle size={13} color="#fca5a5" style={{ flexShrink: 0 }} />
+                            <AlertTriangle size={13} className={styles.sensitiveIcon} />
                           )}
                           <span>{className}</span>
                         </div>

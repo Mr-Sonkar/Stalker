@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   Monitor,
   Cpu,
-  Shield,
   ShieldCheck,
   Fingerprint as FingerprintIcon,
   CheckCircle2,
@@ -13,13 +12,12 @@ import {
   Layers,
   Type,
   Volume2,
-  Palette,
   Sparkles,
   Code,
-  AlertTriangle,
   RotateCcw,
 } from "lucide-react";
 import { runDeepFingerprint, DeepFingerprintResult } from "@/lib/fingerprint";
+import styles from "./BrowserFingerprint.module.css";
 
 type TabKey = "overview" | "gpu" | "fonts" | "media" | "display" | "defenses" | "raw";
 
@@ -49,666 +47,349 @@ export function BrowserFingerprint() {
 
   if (!data) {
     return (
-      <div className="flex w-full max-w-4xl flex-col items-center justify-center rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-12 text-center backdrop-blur-xl shadow-2xl">
-        <div className="relative mb-6">
-          <div className="absolute -inset-2 rounded-full bg-[#2ca6e9]/20 blur-xl animate-pulse" />
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-[#2ca6e9]/30 bg-[#030912] p-4 shadow-xl">
-            <FingerprintIcon className="h-10 w-10 text-[#2ca6e9]" />
+      <div className={styles.container}>
+        <div className={styles.initialCard}>
+          <div className={styles.iconHalo}>
+            <FingerprintIcon size={36} />
           </div>
+
+          <h2 className={styles.promptTitle}>
+            Deep Multi-Vector Hardware Fingerprint Audit
+          </h2>
+          <p className={styles.promptDesc}>
+            Probes GPU shader rendering, WebGL unmasked vendors, system font metrics, audio synthesis dynamics, and detects whether your browser injects anti-tracking farbling noise.
+          </p>
+
+          <div className={styles.tagRow}>
+            <span className={styles.featureTag}>
+              <Cpu size={14} color="var(--brand-cyan)" />
+              GPU Shader Hardware
+            </span>
+            <span className={styles.featureTag}>
+              <Type size={14} color="var(--brand-emerald)" />
+              55+ Installed Font Probes
+            </span>
+            <span className={styles.featureTag}>
+              <Volume2 size={14} color="var(--brand-chartreuse)" />
+              AudioContext Dynamics
+            </span>
+            <span className={styles.featureTag}>
+              <ShieldCheck size={14} color="var(--brand-emerald)" />
+              Farbling &amp; Brave Protection Check
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={runTest}
+            disabled={isLoading}
+            className={styles.startAuditBtn}
+          >
+            {isLoading ? (
+              <>
+                <RotateCcw size={18} className="animate-spin" />
+                <span>Extracting Hardware Signatures...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles size={18} />
+                <span>Execute Deep Fingerprint Audit</span>
+              </>
+            )}
+          </button>
         </div>
-
-        <h2 className="text-2xl font-bold text-[#fafeff] sm:text-3xl">
-          Deep Multi-Vector Fingerprint Audit
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-300">
-          Probes hardware graphics rendering, WebGL shader precisions, system font metrics, audio synthesis dynamics, and detects whether your browser injects anti-tracking noise.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2ca6e9]/20 bg-[#030912] px-3 py-1">
-            <Cpu className="h-3.5 w-3.5 text-[#2ca6e9]" /> GPU Shaders & Extensions
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#169b5c]/20 bg-[#030912] px-3 py-1">
-            <Type className="h-3.5 w-3.5 text-[#169b5c]" /> 55+ System Font Probes
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e0e260]/20 bg-[#030912] px-3 py-1">
-            <Volume2 className="h-3.5 w-3.5 text-[#e0e260]" /> Audio Context & Speech
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#169b5c]/20 bg-[#030912] px-3 py-1">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#169b5c]" /> Brave / Noise Farbling Detection
-          </span>
-        </div>
-
-        <button
-          onClick={runTest}
-          disabled={isLoading}
-          className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#169b5c] via-[#2ca6e9] to-[#169b5c] px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#169b5c]/25 transition-all hover:scale-[1.02] hover:opacity-95 disabled:opacity-50"
-        >
-          {isLoading ? (
-            <>
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-              Probing Deep Hardware Signatures...
-            </>
-          ) : (
-            <>
-              <Sparkles className="h-4 w-4 text-[#e0e260]" />
-              Start Deep Fingerprint Audit
-            </>
-          )}
-        </button>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-5xl space-y-6">
+    <div className={styles.container}>
       {/* Hero Summary Card */}
-      <div className="rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-6 backdrop-blur-xl sm:p-8 shadow-2xl">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2ca6e9]/30 bg-[#2ca6e9]/10 px-3 py-1 text-xs font-medium text-[#2ca6e9]">
-                <FingerprintIcon className="h-3.5 w-3.5 text-[#2ca6e9]" />
+      <div className={styles.heroCard}>
+        <div className={styles.heroTop}>
+          <div>
+            <div className={styles.statusHeader}>
+              <span className={styles.idBadge}>
+                <FingerprintIcon size={14} />
                 Composite Hardware ID
               </span>
-              <span className="text-xs text-[#e0e260]">
+              <span className={styles.timeBadge}>
                 Audited: {new Date(data.scannedAt).toLocaleTimeString()}
               </span>
             </div>
-
-            <div className="flex items-center gap-3 pt-1">
-              <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-[#2ca6e9] break-all">
-                {data.hash}
-              </span>
+            <div className={styles.hashRow}>
+              <span className={styles.hashDisplay}>{data.hash}</span>
               <button
+                type="button"
                 onClick={() => copyHash(data.hash)}
-                className="shrink-0 rounded-lg border border-[#2ca6e9]/20 bg-[#071927] p-2 text-slate-300 transition-colors hover:bg-[#16364a] hover:text-white"
+                className={styles.copyBtn}
                 title="Copy Fingerprint Hash"
               >
-                {copied ? <Check className="h-4 w-4 text-[#169b5c]" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check size={14} color="var(--brand-emerald)" /> : <Copy size={14} />}
+                <span>{copied ? "Copied" : "Copy"}</span>
               </button>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <button
-              onClick={runTest}
-              disabled={isLoading}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#2ca6e9]/25 bg-[#071927] px-4 py-2 text-xs font-semibold text-slate-200 transition-colors hover:bg-[#16364a] hover:text-[#fafeff]"
-            >
-              <RotateCcw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />
-              Re-scan Signals
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={runTest}
+            disabled={isLoading}
+            className={styles.rescanBtn}
+          >
+            <RotateCcw size={14} className={isLoading ? "animate-spin" : ""} />
+            <span>Re-scan Signatures</span>
+          </button>
         </div>
 
-        {/* Metric Badges */}
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {/* Uniqueness Score */}
-          <div className="rounded-2xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-4">
-            <span className="text-xs font-medium text-slate-400">Surface Diversity (Heuristic)</span>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-2xl font-extrabold text-[#fafeff]">
-                {data.entropy.totalBits}
-              </span>
-              <span className="text-xs text-slate-400">bits</span>
-            </div>
-            <p className="mt-1 text-xs font-medium text-[#e0e260]">
+        {/* Metrics Trio */}
+        <div className={styles.metricsGrid}>
+          <div className={styles.metricTile}>
+            <span className={styles.metricTileTitle}>Surface Diversity</span>
+            <span className={styles.metricTileVal}>{data.entropy.totalBits} bits</span>
+            <span className={styles.metricTileSub}>
               {data.entropy.uniquenessRatio} (est. {data.entropy.uniquenessPercentage}% distinct)
-            </p>
+            </span>
           </div>
 
-          {/* Defense Status */}
-          <div className="rounded-2xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-4">
-            <span className="text-xs font-medium text-slate-400">API Noise (Farbling)</span>
-            <div className="mt-1 flex items-center gap-2">
-              {data.tamper.defenseStatus === "ACTIVELY_DEFENDED" ? (
-                <>
-                  <ShieldCheck className="h-5 w-5 text-[#169b5c]" />
-                  <span className="text-base font-bold text-[#169b5c]">Active Farbling</span>
-                </>
-              ) : data.tamper.defenseStatus === "PARTIALLY_PROTECTED" ? (
-                <>
-                  <AlertTriangle className="h-5 w-5 text-[#e0e260]" />
-                  <span className="text-base font-bold text-[#e0e260]">Partial Farbling</span>
-                </>
-              ) : (
-                <>
-                  <Shield className="h-5 w-5 text-slate-400" />
-                  <span className="text-base font-bold text-slate-300">Standard (No Noise)</span>
-                </>
-              )}
-            </div>
-            <p className="mt-1 text-xs text-slate-400">
-              {data.tamper.canvasNoiseDetected
-                ? "Canvas pixels randomized"
-                : "Consistent hardware signature"}
-            </p>
+          <div className={styles.metricTile}>
+            <span className={styles.metricTileTitle}>Rarity Rating</span>
+            <span className={styles.metricTileVal}>{data.entropy.rarityLevel}</span>
+            <span className={styles.metricTileSub}>
+              Defense Status: {data.tamper.defenseStatus}
+            </span>
           </div>
 
-          {/* Browser / Platform */}
-          <div className="rounded-2xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-4">
-            <span className="text-xs font-medium text-slate-400">Host Environment</span>
-            <div className="mt-1 text-base font-bold text-[#fafeff] truncate">
-              {data.navigator.browserName}
-            </div>
-            <p className="mt-1 text-xs text-slate-400 truncate">
-              {data.navigator.platform} • {data.screen.timezone}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Privacy vs Security Context Banner */}
-      <div className="rounded-2xl border border-[#2ca6e9]/20 bg-[#04101e]/80 p-4 text-xs text-slate-300">
-        <div className="flex items-start gap-3">
-          <Shield className="h-4 w-4 text-[#2ca6e9] shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <span className="font-semibold text-[#fafeff]">Browser Distinguishability vs. System Security</span>
-            <p className="text-slate-400 leading-relaxed">
-              This audit measures how readily your browser configuration can be differentiated from others for cross-site tracking. A high diversity index does <strong>not</strong> indicate a security vulnerability, virus, or weak passwords—your computer’s antivirus, HTTPS, and operating system security remain fully protective. Similarly, &quot;Standard (No Noise)&quot; means graphics and audio APIs do not inject random farbling; traditional content blockers and network protections operate on separate layers.
-            </p>
+          <div className={styles.metricTile}>
+            <span className={styles.metricTileTitle}>Anti-Fingerprinting Noise</span>
+            <span className={styles.metricTileVal}>
+              {data.tamper.canvasNoiseDetected ? "Farbling Active" : "Deterministic"}
+            </span>
+            <span className={styles.metricTileSub}>
+              Score: {data.tamper.protectionScore}/100 • {data.tamper.braveDetected ? "Brave Shielded" : "Standard"}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex overflow-x-auto border-b border-[#2ca6e9]/15 text-xs font-medium text-slate-400 scrollbar-none">
-        <button
-          onClick={() => setActiveTab("overview")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "overview"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Layers className="h-4 w-4 text-[#2ca6e9]" /> Overview
-        </button>
-        <button
-          onClick={() => setActiveTab("gpu")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "gpu"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Cpu className="h-4 w-4 text-[#169b5c]" /> GPU & WebGL ({data.webgl.extensions.length} ext)
-        </button>
-        <button
-          onClick={() => setActiveTab("fonts")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "fonts"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Type className="h-4 w-4 text-[#e0e260]" /> System Fonts ({data.fonts.detectedFonts.length})
-        </button>
-        <button
-          onClick={() => setActiveTab("media")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "media"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Volume2 className="h-4 w-4 text-[#2ca6e9]" /> Audio & Speech ({data.media.voicesCount} voices)
-        </button>
-        <button
-          onClick={() => setActiveTab("display")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "display"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Palette className="h-4 w-4 text-[#169b5c]" /> Display & CSS
-        </button>
-        <button
-          onClick={() => setActiveTab("defenses")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "defenses"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Shield className="h-4 w-4 text-[#e0e260]" /> API Noise & Farbling
-        </button>
-        <button
-          onClick={() => setActiveTab("raw")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 transition-colors ${
-            activeTab === "raw"
-              ? "border-[#2ca6e9] text-[#fafeff] font-semibold bg-[#2ca6e9]/10"
-              : "border-transparent hover:text-slate-200"
-          }`}
-        >
-          <Code className="h-4 w-4 text-[#2ca6e9]" /> Raw Diagnostic JSON
-        </button>
+      <div className={styles.tabNav}>
+        {[
+          { key: "overview", label: "Overview", icon: Layers },
+          { key: "gpu", label: "WebGL & GPU", icon: Cpu },
+          { key: "fonts", label: `Fonts (${data.fonts.detectedFonts.length})`, icon: Type },
+          { key: "media", label: "Audio & Canvas", icon: Volume2 },
+          { key: "display", label: "Display & Platform", icon: Monitor },
+          { key: "defenses", label: "Protections", icon: ShieldCheck },
+          { key: "raw", label: "Raw Telemetry", icon: Code },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              className={`${styles.tabBtn} ${activeTab === tab.key ? styles.tabBtnActive : ""}`}
+              onClick={() => setActiveTab(tab.key as TabKey)}
+            >
+              <Icon size={14} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Tab Panels */}
-      <div className="rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-6 backdrop-blur-xl">
+      <div className={styles.tabContent}>
         {activeTab === "overview" && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {/* Hardware Signals */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-3">
-                <div className="flex items-center gap-2 text-[#2ca6e9] font-semibold text-sm">
-                  <Cpu className="h-4 w-4" /> Hardware & Processing Core
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">GPU Renderer</span>
-                    <span className="text-slate-200 font-mono text-right max-w-[240px] truncate" title={data.webgl.renderer || ""}>
-                      {data.webgl.renderer || "Unknown"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">CPU Threads (Concurrency)</span>
-                    <span className="text-slate-200 font-mono">{data.navigator.hardwareConcurrency || "Unavailable"}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Device RAM</span>
-                    <span className="text-slate-200 font-mono">
-                      {data.navigator.deviceMemory ? `${data.navigator.deviceMemory} GB` : "Unavailable"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400">Max Texture Size</span>
-                    <span className="text-slate-200 font-mono">{data.webgl.maxTextureSize}px</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Display & Optics */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-3">
-                <div className="flex items-center gap-2 text-[#169b5c] font-semibold text-sm">
-                  <Monitor className="h-4 w-4" /> Screen & Optics Matrix
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Resolution</span>
-                    <span className="text-slate-200 font-mono">
-                      {data.screen.width} × {data.screen.height} (Avail: {data.screen.availWidth} × {data.screen.availHeight})
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Device Pixel Ratio (DPR)</span>
-                    <span className="text-slate-200 font-mono">{data.screen.devicePixelRatio}x</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Color Gamut</span>
-                    <span className="text-cyan-400 uppercase font-mono">{data.capabilities.colorGamut}</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400">High Dynamic Range (HDR)</span>
-                    <span className="text-slate-200 font-mono">{data.capabilities.hdr ? "Supported" : "Standard SDR"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Audio & Typography */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-3">
-                <div className="flex items-center gap-2 text-cyan-400 font-semibold text-sm">
-                  <Type className="h-4 w-4" /> System Typography & Voices
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Installed Fonts Detected</span>
-                    <span className="text-emerald-400 font-mono font-semibold">
-                      {data.fonts.detectedFonts.length} of {data.fonts.totalTested} probed
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Speech Synthesis Voices</span>
-                    <span className="text-slate-200 font-mono">{data.media.voicesCount} engines</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Media Device Inputs</span>
-                    <span className="text-slate-200 font-mono">
-                      {data.media.audioInputCount} audio, {data.media.videoInputCount} video
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400">Audio Frequency Sum</span>
-                    <span className="text-slate-200 font-mono truncate max-w-[180px]">{data.audio.value || "None"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Defense & Sandbox */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-3">
-                <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm">
-                  <ShieldCheck className="h-4 w-4" /> Protection & Sandbox
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Canvas Noise (Farbling)</span>
-                    <span className={data.tamper.canvasNoiseDetected ? "text-emerald-400 font-semibold" : "text-slate-400"}>
-                      {data.tamper.canvasNoiseDetected ? "Detected (Active)" : "None"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">Brave Shields</span>
-                    <span className={data.tamper.braveDetected ? "text-emerald-400 font-semibold" : "text-slate-400"}>
-                      {data.tamper.braveDetected ? "Active" : "Not Detected"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400">WebAssembly Engine</span>
-                    <span className="text-slate-200 font-mono">{data.capabilities.webAssembly ? "Enabled" : "Disabled"}</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400">Automated Webdriver</span>
-                    <span className={data.tamper.isAutomated ? "text-amber-400 font-semibold" : "text-slate-400"}>
-                      {data.tamper.isAutomated ? "Detected" : "Clean"}
-                    </span>
-                  </div>
-                </div>
-              </div>
+          <div className={styles.dataTable}>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Canvas 2D Hash</span>
+              <span className={`${styles.dataVal} ${styles.dataValCyan}`}>
+                {data.canvas.hash}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Audio Oscillator Signature</span>
+              <span className={`${styles.dataVal} ${styles.dataValHighlight}`}>
+                {data.audio.value || "Not Evaluated"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>WebGL Renderer</span>
+              <span className={styles.dataVal}>
+                {data.webgl.renderer || "Standard Software Context"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Platform OS</span>
+              <span className={styles.dataVal}>
+                {data.navigator.platform} ({data.navigator.browserName})
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Logical CPU Cores</span>
+              <span className={`${styles.dataVal} ${styles.dataValEmerald}`}>
+                {data.navigator.hardwareConcurrency || "Protected"} Threads
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Device Memory Estimation</span>
+              <span className={styles.dataVal}>
+                {data.navigator.deviceMemory ? `~${data.navigator.deviceMemory} GB` : "Protected API"}
+              </span>
             </div>
           </div>
         )}
 
-        {/* GPU Tab */}
         {activeTab === "gpu" && (
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <Cpu className="h-4 w-4 text-[#2ca6e9]" /> GPU Hardware Diagnostics
-              </h4>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-xs">
-                <div>
-                  <span className="text-slate-400 block mb-1">Unmasked Vendor</span>
-                  <span className="font-mono text-slate-200">{data.webgl.vendor || "N/A"}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Unmasked Renderer</span>
-                  <span className="font-mono text-cyan-400">{data.webgl.renderer || "N/A"}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">WebGL Version</span>
-                  <span className="font-mono text-slate-200">{data.webgl.version || "N/A"}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Shading Language</span>
-                  <span className="font-mono text-slate-200">{data.webgl.shadingLanguageVersion || "N/A"}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Max Texture Dimension</span>
-                  <span className="font-mono text-slate-200">{data.webgl.maxTextureSize} × {data.webgl.maxTextureSize} px</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Antialiasing Buffer</span>
-                  <span className="font-mono text-slate-200">{data.webgl.antialias ? "Hardware Active" : "Disabled"}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Vertex Shader Precision</span>
-                  <span className="font-mono text-slate-200">{data.webgl.vertexShaderPrecision} bits</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">3D Geometric Raster Hash</span>
-                  <span className="font-mono text-emerald-400">{data.webgl.renderHash}</span>
-                </div>
-              </div>
+          <div className={styles.dataTable}>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>GPU Vendor</span>
+              <span className={`${styles.dataVal} ${styles.dataValCyan}`}>
+                {data.webgl.vendor || "Default Graphics Pipeline"}
+              </span>
             </div>
-
-            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5">
-              <h4 className="text-sm font-bold text-white mb-3">
-                Supported WebGL Extensions ({data.webgl.extensions.length})
-              </h4>
-              <p className="text-xs text-slate-400 mb-3">
-                The specific combination and alphabetical registration order of WebGL extensions is determined by your graphics driver.
-              </p>
-              <div className="flex flex-wrap gap-1.5 max-h-60 overflow-y-auto">
-                {data.webgl.extensions.map((ext) => (
-                  <span
-                    key={ext}
-                    className="rounded-md border border-slate-800 bg-slate-900 px-2 py-1 font-mono text-[11px] text-slate-300"
-                  >
-                    {ext}
-                  </span>
-                ))}
-              </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>GPU Renderer</span>
+              <span className={`${styles.dataVal} ${styles.dataValHighlight}`}>
+                {data.webgl.renderer || "Default Pipeline"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>GLSL Version</span>
+              <span className={styles.dataVal}>{data.webgl.shadingLanguageVersion || "1.0"}</span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Max Texture Size</span>
+              <span className={styles.dataVal}>{data.webgl.maxTextureSize}px</span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Supported Extensions</span>
+              <span className={styles.dataVal}>{data.webgl.extensions?.length || 0} active</span>
             </div>
           </div>
         )}
 
-        {/* Fonts Tab */}
         {activeTab === "fonts" && (
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h4 className="text-sm font-bold text-[#fafeff] flex items-center gap-2">
-                    <Type className="h-4 w-4 text-[#169b5c]" />
-                    System Fonts Signature
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Detected {data.fonts.detectedFonts.length} installed fonts out of {data.fonts.totalTested} probed system typography families.
-                  </p>
+          <div className={styles.fontsSection}>
+            <div className={styles.fontsHeading}>
+              Detected <strong>{data.fonts.detectedFonts.length}</strong> installed fonts out of{" "}
+              {data.fonts.totalTested} probed system typefaces:
+            </div>
+            <div className={styles.fontGrid}>
+              {data.fonts.detectedFonts.map((font: string, idx: number) => (
+                <div key={idx} className={`${styles.fontCard} ${styles.fontCardActive}`}>
+                  <span>{font}</span>
+                  <CheckCircle2 size={13} />
                 </div>
-                <span className="font-mono text-xs text-[#e0e260] rounded-lg border border-[#e0e260]/30 bg-[#e0e260]/10 px-3 py-1">
-                  Hash: {data.fonts.hash}
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {data.fonts.detectedFonts.map((font) => (
-                  <span
-                    key={font}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#2ca6e9]/20 bg-[#071927] px-2.5 py-1 text-xs text-[#fafeff]"
-                  >
-                    <CheckCircle2 className="h-3 w-3 text-[#169b5c]" />
-                    {font}
-                  </span>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Audio & Media Tab */}
         {activeTab === "media" && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-3">
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Volume2 className="h-4 w-4 text-cyan-400" /> OfflineAudio Dynamics
-                </h4>
-                <div className="space-y-2 text-xs font-mono">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400 font-sans">Audio Sample Rate</span>
-                    <span className="text-slate-200">{data.audio.sampleRate} Hz</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400 font-sans">Triangle Oscillator Sum</span>
-                    <span className="text-cyan-400 truncate max-w-[200px]">{data.audio.value}</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400 font-sans">Audio Farbling Status</span>
-                    <span className={data.audio.isTampered ? "text-emerald-400" : "text-slate-400"}>
-                      {data.audio.isTampered ? "Active Noise Injection" : "Consistent"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-3">
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Monitor className="h-4 w-4 text-[#2ca6e9]" /> Media Devices Topology
-                </h4>
-                <div className="space-y-2 text-xs font-mono">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400 font-sans">Microphones (Audio Inputs)</span>
-                    <span className="text-slate-200">{data.media.audioInputCount}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
-                    <span className="text-slate-400 font-sans">Speakers (Audio Outputs)</span>
-                    <span className="text-slate-200">{data.media.audioOutputCount}</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400 font-sans">Webcams (Video Inputs)</span>
-                    <span className="text-slate-200">{data.media.videoInputCount}</span>
-                  </div>
-                </div>
-              </div>
+          <div className={styles.dataTable}>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Canvas Geometry Signature</span>
+              <span className={`${styles.dataVal} ${styles.dataValCyan}`}>
+                {data.canvas.hash}
+              </span>
             </div>
-
-            {data.media.voicesCount > 0 && (
-              <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5">
-                <h4 className="text-sm font-bold text-white mb-2">
-                  Speech Synthesis Voice Engines ({data.media.voicesCount})
-                </h4>
-                <p className="text-xs text-slate-400 mb-3">
-                  Reveals language packs and OS-specific text-to-speech providers.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {data.media.voicesSample.map((voice) => (
-                    <span
-                      key={voice}
-                      className="rounded-md border border-slate-800 bg-slate-900 px-2.5 py-1 text-xs text-slate-300 font-mono"
-                    >
-                      {voice}
-                    </span>
-                  ))}
-                  {data.media.voicesCount > 5 && (
-                    <span className="rounded-md bg-slate-800 px-2 py-1 text-xs text-slate-400">
-                      +{data.media.voicesCount - 5} more
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Audio Sample Rate</span>
+              <span className={styles.dataVal}>{data.audio.sampleRate || 44100} Hz</span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Audio Oscillator Value</span>
+              <span className={`${styles.dataVal} ${styles.dataValHighlight}`}>
+                {data.audio.value || "N/A"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Speech Synthesis Voices</span>
+              <span className={styles.dataVal}>
+                {data.media.voicesCount || 0} voices registered
+              </span>
+            </div>
           </div>
         )}
 
-        {/* Display & CSS Tab */}
         {activeTab === "display" && (
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-4">
-              <h4 className="text-sm font-bold text-white">CSS Media Query & Screen Profile</h4>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-xs">
-                <div>
-                  <span className="text-slate-400 block mb-1">Color Gamut Support</span>
-                  <span className="font-mono text-cyan-400 uppercase">{data.capabilities.colorGamut}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">HDR Support</span>
-                  <span className="font-mono text-slate-200">{data.capabilities.hdr ? "High Dynamic Range Active" : "Standard Range"}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Pointer Precision</span>
-                  <span className="font-mono text-slate-200">{data.capabilities.pointerType} (Hover: {data.capabilities.hover ? "Yes" : "No"})</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Touch Points</span>
-                  <span className="font-mono text-slate-200">{data.capabilities.maxTouchPoints} max touch contacts</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Preferred Theme</span>
-                  <span className="font-mono text-slate-200 uppercase">{data.capabilities.colorScheme}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block mb-1">Reduced Motion Preference</span>
-                  <span className="font-mono text-slate-200">{data.capabilities.reducedMotion ? "Active" : "No preference"}</span>
-                </div>
-              </div>
+          <div className={styles.dataTable}>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Screen Resolution</span>
+              <span className={`${styles.dataVal} ${styles.dataValHighlight}`}>
+                {data.screen.width} × {data.screen.height}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Available Desktop Area</span>
+              <span className={styles.dataVal}>
+                {data.screen.availWidth} × {data.screen.availHeight}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Color Depth</span>
+              <span className={styles.dataVal}>{data.screen.colorDepth}-bit</span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Device Pixel Ratio (DPR)</span>
+              <span className={styles.dataVal}>{data.screen.devicePixelRatio}x</span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Timezone &amp; Locale</span>
+              <span className={styles.dataVal}>
+                {data.screen.timezone} ({data.navigator.languages.join(", ")})
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Touch Screen Points</span>
+              <span className={styles.dataVal}>{data.capabilities.maxTouchPoints} Max Touch Points</span>
             </div>
           </div>
         )}
 
-        {/* Defenses Tab */}
         {activeTab === "defenses" && (
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  {data.tamper.defenseStatus === "ACTIVELY_DEFENDED" ? (
-                    <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                  ) : data.tamper.defenseStatus === "PARTIALLY_PROTECTED" ? (
-                    <AlertTriangle className="h-4 w-4 text-amber-400" />
-                  ) : (
-                    <Shield className="h-4 w-4 text-slate-400" />
-                  )}
-                  Hardware API Noise & Farbling Analysis
-                </h4>
-                <span
-                  className={`font-bold text-xs px-3 py-1 rounded-full border self-start sm:self-auto ${
-                    data.tamper.protectionScore >= 60
-                      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
-                      : data.tamper.protectionScore >= 20
-                      ? "border-amber-500/30 bg-amber-500/10 text-amber-400"
-                      : "border-slate-700 bg-slate-800 text-slate-300"
-                  }`}
-                >
-                  Farbling Index: {data.tamper.protectionScore} / 100 ({data.tamper.defenseStatus.replace("_", " ")})
-                </span>
-              </div>
-
-              {/* Explanatory Banner for 0/100 or Low Protection */}
-              {data.tamper.protectionScore < 20 && (
-                <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-xs text-slate-300 space-y-2">
-                  <div className="flex items-center gap-2 font-semibold text-slate-200">
-                    <Shield className="h-4 w-4 text-[#169b5c]" />
-                    <span>Understanding &quot;Standard Exposure&quot; (0/100 Farbling)</span>
-                  </div>
-                  <p className="leading-relaxed text-slate-300">
-                    This test evaluates whether your browser intentionally randomizes canvas pixel rendering or audio frequency buffers (farbling). A score of <strong>0 / 100</strong> means that standard graphics and audio APIs execute deterministically, allowing trackers to observe consistent hardware signatures.
-                  </p>
-                  <p className="text-slate-400 leading-relaxed">
-                    This does <strong>not</strong> mean your device is unpatched or insecure—network protections, ad blockers, cookie partitioners, and antivirus software operate on separate layers. However, websites with JavaScript enabled can observe your exact hardware characteristics. Privacy-focused configurations (such as Brave Shields or Firefox with <code>privacy.resistFingerprinting</code>) inject subtle mathematical noise to disrupt tracking scripts.
-                  </p>
-                </div>
-              )}
-
-              <div className="space-y-3 pt-2">
-                {data.tamper.notes.map((note, idx) => {
-                  const isNegative =
-                    note.toLowerCase().includes("no active") ||
-                    note.toLowerCase().includes("unprotected") ||
-                    note.toLowerCase().includes("automated");
-
-                  return (
-                    <div
-                      key={idx}
-                      className={`flex items-start gap-3 rounded-xl border p-3.5 text-xs text-slate-300 ${
-                        isNegative
-                          ? "border-red-500/20 bg-red-950/10"
-                          : "border-slate-800/80 bg-slate-900/60"
-                      }`}
-                    >
-                      {isNegative ? (
-                        <AlertTriangle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-                      ) : (
-                        <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                      )}
-                      <span>{note}</span>
-                    </div>
-                  );
-                })}
-              </div>
+          <div className={styles.dataTable}>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Anti-Fingerprinting Noise (Farbling)</span>
+              <span
+                className={`${styles.dataVal} ${
+                  data.tamper.canvasNoiseDetected ? styles.dataValEmerald : styles.dataValHighlight
+                }`}
+              >
+                {data.tamper.canvasNoiseDetected
+                  ? "DETECTED (Canvas Noise Injected)"
+                  : "NOT DETECTED (Deterministic Canvas)"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Brave Browser Protection</span>
+              <span
+                className={`${styles.dataVal} ${
+                  data.tamper.braveDetected ? styles.dataValEmerald : ""
+                }`}
+              >
+                {data.tamper.braveDetected ? "ACTIVE" : "INACTIVE"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Automated WebDriver Indicator</span>
+              <span className={styles.dataVal}>
+                {data.tamper.isAutomated ? "DETECTED (Headless / Bot)" : "None (Organic Session)"}
+              </span>
+            </div>
+            <div className={styles.dataRow}>
+              <span className={styles.dataLabel}>Protection Score</span>
+              <span className={`${styles.dataVal} ${styles.dataValEmerald}`}>
+                {data.tamper.protectionScore} / 100 ({data.tamper.defenseStatus})
+              </span>
             </div>
           </div>
         )}
 
-        {/* Raw JSON Tab */}
         {activeTab === "raw" && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400">Complete Diagnostic JSON Object</span>
-              <button
-                onClick={() => copyHash(JSON.stringify(data, null, 2))}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-700"
-              >
-                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-                Copy JSON
-              </button>
-            </div>
-            <pre className="max-h-[460px] overflow-auto rounded-2xl border border-slate-800 bg-slate-950 p-4 font-mono text-[11px] text-cyan-300 leading-relaxed scrollbar-thin scrollbar-thumb-slate-800">
-              {JSON.stringify(data, null, 2)}
-            </pre>
-          </div>
+          <pre className={styles.rawCode}>{JSON.stringify(data, null, 2)}</pre>
         )}
       </div>
     </div>

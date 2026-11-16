@@ -541,3 +541,82 @@
   color: #fca5a5;
   font-weight: 600;
 }
+
+
+.scannerForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.fileNameText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metadataGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.metadataTile {
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.metadataLabel {
+  font-size: 0.7rem;
+  color: var(--brand-cyan);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.metadataValue {
+  font-size: 0.85rem;
+  color: var(--brand-white);
+  margin-top: 2px;
+  word-break: break-all;
+}
+
+.ocrSnippet {
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin: 6px 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--brand-cyan);
+  word-break: break-word;
+}
+
+
+.hiddenInput {
+  display: none;
+}
+
+.statTileValClean {
+  color: var(--brand-emerald);
+}
+
+.statTileValModerate {
+  color: var(--brand-chartreuse);
+}
+
+.statTileValCritical {
+  color: #ef4444;
+}
+
+.statTileValYellow {
+  color: var(--brand-chartreuse);
+}
+
+.statTileValCyan {
+  color: var(--brand-cyan);
+}

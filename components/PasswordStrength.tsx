@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import type { ZXCVBNResult } from "zxcvbn";
 import { KeyRound, Eye, EyeOff, CheckCircle2, AlertTriangle } from "lucide-react";
+import styles from "./PasswordStrength.module.css";
 
 export function PasswordStrength() {
   const [password, setPassword] = useState("");
@@ -27,119 +28,113 @@ export function PasswordStrength() {
   const score = result ? result.score : 0;
 
   const scoreConfigs = [
-    { label: "Very Weak", color: "bg-red-500", text: "text-red-400", border: "border-red-500/30" },
-    { label: "Weak", color: "bg-orange-500", text: "text-orange-400", border: "border-orange-500/30" },
-    { label: "Fair", color: "bg-amber-400", text: "text-amber-300", border: "border-amber-400/30" },
-    { label: "Good", color: "bg-[#2ca6e9]", text: "text-[#2ca6e9]", border: "border-[#2ca6e9]/30" },
-    { label: "Strong / Resilient", color: "bg-[#169b5c]", text: "text-[#169b5c]", border: "border-[#169b5c]/30" },
+    { label: "Very Weak", segmentClass: styles.meterSegmentRed, textClass: styles.statusRed },
+    { label: "Weak", segmentClass: styles.meterSegmentOrange, textClass: styles.statusOrange },
+    { label: "Fair", segmentClass: styles.meterSegmentYellow, textClass: styles.statusYellow },
+    { label: "Good", segmentClass: styles.meterSegmentCyan, textClass: styles.statusCyan },
+    { label: "Strong / Resilient", segmentClass: styles.meterSegmentEmerald, textClass: styles.statusEmerald },
   ];
 
   const currentConfig = scoreConfigs[score] || scoreConfigs[0];
 
   return (
-    <div className="w-full rounded-2xl border border-[#2ca6e9]/20 bg-[#04101e]/80 p-5 shadow-xl backdrop-blur-xl">
-      <div className="flex items-center justify-between border-b border-[#2ca6e9]/15 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#2ca6e9]/10 border border-[#2ca6e9]/25 text-[#2ca6e9]">
-            <KeyRound className="h-4 w-4" />
+    <div className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.titleGroup}>
+          <div className={styles.iconBox}>
+            <KeyRound size={16} />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-[#fafeff]">Client-Side Password Entropy</h3>
-            <p className="text-[11px] text-slate-400">Zero network transmission — evaluated strictly in local memory</p>
+            <h3 className={styles.title}>Client-Side Password Entropy</h3>
+            <p className={styles.subtitle}>Zero network transmission — evaluated strictly in local memory</p>
           </div>
         </div>
-        <span className="rounded-full border border-[#169b5c]/30 bg-[#169b5c]/10 px-2.5 py-0.5 text-[10px] font-semibold text-[#169b5c]">
+        <span className={styles.badge}>
           zxcvbn v4.4
         </span>
       </div>
 
-      <div className="mt-4 space-y-3">
-        <div className="relative">
+      <div className={styles.content}>
+        <div className={styles.inputWrapper}>
           <input
             id="password-entropy-test"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-[#2ca6e9]/20 bg-[#030912] px-4 py-2.5 pr-10 text-sm text-[#fafeff] placeholder-slate-500 transition-colors focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
-            placeholder="Test a password pattern for entropy..."
+            placeholder="Type a password to test entropy..."
+            className={styles.input}
             autoComplete="off"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#fafeff]"
+            className={styles.eyeBtn}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         </div>
 
-        {password ? (
-          <div className="space-y-3 pt-1">
-            {/* Segmented Strength Meter */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400 font-medium">Entropy Rating:</span>
-                <span className={`font-semibold ${currentConfig.text}`}>{currentConfig.label}</span>
-              </div>
-              <div className="grid grid-cols-4 gap-1.5">
-                {[0, 1, 2, 3].map((segmentIndex) => {
-                  const isActive = score > segmentIndex;
-                  return (
-                    <div
-                      key={segmentIndex}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        isActive ? currentConfig.color : "bg-[#071927]"
-                      }`}
-                    />
-                  );
-                })}
-              </div>
+        {password && (
+          <>
+            <div className={styles.scoreRow}>
+              <span className={styles.scoreLabel}>Estimated Resistance:</span>
+              <span className={`${styles.scoreStatus} ${currentConfig.textClass}`}>
+                {currentConfig.label} ({score}/4)
+              </span>
             </div>
 
-            {/* Analysis details */}
+            <div className={styles.meterTrack}>
+              {[0, 1, 2, 3].map((segmentIndex) => {
+                const isActive = score > segmentIndex;
+                return (
+                  <div
+                    key={segmentIndex}
+                    className={`${styles.meterSegment} ${
+                      isActive ? currentConfig.segmentClass : ""
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
             {result && (
-              <div className="rounded-xl border border-[#2ca6e9]/15 bg-[#030912]/80 p-3.5 space-y-2 text-xs">
-                <div className="flex items-center justify-between text-slate-300">
-                  <span className="text-slate-400">Offline Attack Time:</span>
-                  <span className="font-mono font-medium text-[#e0e260]">
-                    {result.crack_times_display.offline_slow_hashing_1e4_per_second}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-slate-300">
-                  <span className="text-slate-400">Online Rate-Limited:</span>
-                  <span className="font-mono font-medium text-[#2ca6e9]">
-                    {result.crack_times_display.online_throttling_100_per_hour}
-                  </span>
+              <div className={styles.feedbackBox}>
+                <div className={styles.crackTimesGrid}>
+                  <div className={styles.crackTimeItem}>
+                    <span className={styles.crackTimeLabel}>Online Throttled (100/hr)</span>
+                    <span className={styles.crackTimeValue}>
+                      {result.crack_times_display.online_throttling_100_per_hour}
+                    </span>
+                  </div>
+                  <div className={styles.crackTimeItem}>
+                    <span className={styles.crackTimeLabel}>Offline Fast (10¹⁰/sec)</span>
+                    <span className={styles.crackTimeValue}>
+                      {result.crack_times_display.offline_fast_hashing_1e10_per_second}
+                    </span>
+                  </div>
                 </div>
 
                 {result.feedback.warning && (
-                  <div className="mt-2 flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 p-2 text-[11px] text-amber-300">
-                    <AlertTriangle className="h-4 w-4 shrink-0 text-amber-400" />
+                  <div className={styles.warningAlert}>
+                    <AlertTriangle className={styles.alertIcon} size={14} />
                     <span>{result.feedback.warning}</span>
                   </div>
                 )}
 
                 {result.feedback.suggestions && result.feedback.suggestions.length > 0 && (
-                  <div className="mt-2 space-y-1 pt-1 border-t border-[#2ca6e9]/10">
-                    <span className="text-[11px] font-semibold text-slate-400">Hardening Tips:</span>
-                    <ul className="space-y-1 text-[11px] text-slate-300">
-                      {result.feedback.suggestions.map((s: string, idx: number) => (
-                        <li key={idx} className="flex items-start gap-1.5">
-                          <CheckCircle2 className="h-3 w-3 shrink-0 text-[#169b5c] mt-0.5" />
-                          <span>{s}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul className={styles.suggestionsList}>
+                    {result.feedback.suggestions.map((s, idx) => (
+                      <li key={idx} className={styles.suggestionItem}>
+                        <CheckCircle2 className={styles.suggestionIcon} size={13} />
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
             )}
-          </div>
-        ) : (
-          <p className="text-[11px] text-slate-400">
-            Hint: Combine 4+ random words or passphrases for maximum resistance against GPU hash crackers.
-          </p>
+          </>
         )}
       </div>
     </div>

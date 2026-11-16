@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#03080e",
-  colorScheme: "dark",
+  themeColor: "#f8fafc",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -37,7 +37,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <meta name="color-scheme" content="dark" />
+        <meta name="color-scheme" content="light" />
       </head>
       <body className="bg-grid-ambient" suppressHydrationWarning>
         {children}

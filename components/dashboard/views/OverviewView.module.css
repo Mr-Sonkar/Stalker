@@ -1,16 +1,16 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
-  animation: fadeIn 0.3s ease-out;
+  gap: var(--space-6);
+  animation: fadeIn var(--duration-normal) var(--ease-out);
 }
 
 .heroBanner {
-  background: linear-gradient(135deg, rgba(4, 16, 30, 0.95), rgba(7, 25, 43, 0.85));
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 60%, #f0f9ff 100%);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xl);
-  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
 }
@@ -20,10 +20,10 @@
   position: absolute;
   top: -80px;
   right: -80px;
-  width: 260px;
-  height: 260px;
+  width: 280px;
+  height: 280px;
   border-radius: var(--radius-full);
-  background: radial-gradient(circle, rgba(44, 166, 233, 0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.1), transparent 70%);
   pointer-events: none;
 }
 
@@ -38,15 +38,17 @@
   color: var(--brand-lime);
   background-color: rgba(224, 226, 96, 0.1);
   border: 1px solid rgba(224, 226, 96, 0.25);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-3);
+  letter-spacing: 0.02em;
 }
 
 .heroTitle {
-  font-size: 28px;
+  font-size: clamp(1.75rem, 3.5vw, 2.35rem);
   font-weight: 900;
   color: var(--brand-white);
   letter-spacing: -0.02em;
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-2);
+  line-height: 1.15;
 }
 
 .gradientText {
@@ -56,27 +58,29 @@
 }
 
 .heroDescription {
-  font-size: 14px;
+  font-size: 0.925rem;
   color: var(--text-secondary);
-  max-width: 680px;
+  max-width: 720px;
   line-height: 1.6;
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
 }
 
 .statCard {
   background-color: var(--bg-card);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  transition: all var(--transition-fast);
+  gap: var(--space-2);
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  text-align: left;
 }
 
 .statCard:hover {
@@ -92,6 +96,13 @@
   justify-content: space-between;
 }
 
+.statLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
 .statIcon {
   width: 36px;
   height: 36px;
@@ -99,20 +110,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--brand-white);
+}
+
+.statIconBreach {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.statIconPassword {
+  background-color: rgba(44, 166, 233, 0.15);
+  color: var(--brand-cyan);
+}
+
+.statIconFingerprint {
+  background-color: rgba(22, 155, 92, 0.15);
+  color: var(--brand-emerald);
+}
+
+.statIconOptOut {
+  background-color: rgba(224, 226, 96, 0.15);
+  color: var(--brand-lime);
 }
 
 .statValue {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--brand-white);
-  font-family: var(--font-family-mono);
-}
-
-.statLabel {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 500;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
 }
 
 .statFooter {
@@ -122,43 +147,57 @@
   align-items: center;
   gap: 4px;
   margin-top: 4px;
+  font-weight: 500;
+}
+
+.sectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sectionHeaderRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .sectionTitle {
-  font-size: 18px;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--brand-white);
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
+  gap: var(--space-2);
+}
+
+.sectionTitleIcon {
+  color: var(--brand-cyan);
 }
 
 .sectionSubtitle {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
-  margin-top: -6px;
-  margin-bottom: var(--space-md);
 }
 
 .launchersGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-4);
 }
 
 .launcherCard {
   background-color: var(--bg-card);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: var(--space-md);
+  gap: var(--space-4);
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: all var(--duration-fast) var(--ease-out);
   text-align: left;
 }
 
@@ -172,7 +211,7 @@
 .launcherTop {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-md);
+  gap: var(--space-3);
 }
 
 .launcherIconBox {
@@ -186,6 +225,12 @@
   justify-content: center;
   color: var(--brand-cyan);
   flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.launcherCard:hover .launcherIconBox {
+  transform: scale(1.05);
+  border-color: var(--brand-cyan);
 }
 
 .launcherInfo {
@@ -198,6 +243,7 @@
   font-size: 15px;
   font-weight: 700;
   color: var(--brand-white);
+  letter-spacing: -0.01em;
 }
 
 .launcherDesc {
@@ -211,7 +257,7 @@
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--border-subtle);
-  padding-top: var(--space-sm);
+  padding-top: var(--space-3);
 }
 
 .launcherBadge {
@@ -219,6 +265,7 @@
   font-weight: 600;
   color: var(--brand-lime);
   background-color: rgba(224, 226, 96, 0.08);
+  border: 1px solid rgba(224, 226, 96, 0.2);
   padding: 2px 8px;
   border-radius: var(--radius-full);
 }
@@ -235,8 +282,8 @@
 .architectureCard {
   background-color: var(--bg-card);
   border: 1px solid var(--border-card);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xl);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
   box-shadow: var(--shadow-md);
 }
 
@@ -245,21 +292,23 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: var(--space-md);
-  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
   flex-wrap: wrap;
-  gap: var(--space-sm);
+  gap: var(--space-3);
 }
 
 .archTitle {
-  font-size: 18px;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--brand-white);
+  letter-spacing: -0.01em;
 }
 
 .archSubtitle {
   font-size: 12px;
   color: var(--text-muted);
+  margin-top: 2px;
 }
 
 .archBadge {
@@ -278,32 +327,33 @@
 .archGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
+  gap: var(--space-4);
 }
 
 .archBox {
   background-color: var(--bg-input);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-3);
 }
 
 .archBoxHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-2);
 }
 
 .archBoxTitle {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--brand-cyan);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-family: var(--font-family-mono);
+  font-family: var(--font-mono);
 }
 
 .archBoxStatus {
@@ -313,19 +363,20 @@
   background-color: rgba(224, 226, 96, 0.12);
   padding: 2px 6px;
   border-radius: var(--radius-full);
+  border: 1px solid rgba(224, 226, 96, 0.25);
 }
 
 .archList {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-2);
 }
 
 .archListItem {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-sm);
+  gap: var(--space-2);
   font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.5;
@@ -334,4 +385,15 @@
 .archBullet {
   color: var(--brand-emerald);
   font-weight: 800;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .heroBanner {
+    padding: var(--space-5);
+  }
+
+  .launchersGrid {
+    grid-template-columns: 1fr;
+  }
 }

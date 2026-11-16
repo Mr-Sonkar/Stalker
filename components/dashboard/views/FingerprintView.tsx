@@ -271,8 +271,8 @@ export function FingerprintView() {
         )}
 
         {activeTab === "fonts" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+          <div className={styles.fontsSection}>
+            <div className={styles.fontsHeading}>
               Detected <strong>{data.fonts.detectedFonts.length}</strong> installed fonts out of{" "}
               {data.fonts.totalTested} probed system typefaces:
             </div>

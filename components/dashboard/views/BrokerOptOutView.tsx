@@ -247,7 +247,7 @@ export function BrokerOptOutView() {
           <div>
             <span className={styles.highlightYellow}>1. Never pay a fee:</span> Data broker record suppression is legally mandated to be 100% free by state and federal regulations.
           </div>
-          <div style={{ marginTop: "4px" }}>
+          <div className={styles.noticeSubItem}>
             <span className={styles.highlightCyan}>2. Use an alias email:</span> Use an ephemeral or secondary inbox for verification links so brokers cannot link your primary active inbox to historical physical records.
           </div>
         </div>

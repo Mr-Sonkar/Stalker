@@ -131,7 +131,7 @@ export function ScannerView() {
 
       const imgData = await toPng(reportElement, {
         pixelRatio: 2,
-        backgroundColor: "#03080e",
+        backgroundColor: "#ffffff",
         filter: (node) => {
           if (node instanceof HTMLElement) {
             return !node.classList.contains("html2canvas-ignore");
@@ -204,7 +204,7 @@ export function ScannerView() {
             <span className={styles.badgeMono}>Target Endpoint</span>
           </div>
 
-          <form onSubmit={handleFormSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <form onSubmit={handleFormSubmit} className={styles.scannerForm}>
             <div className={styles.inputGroup}>
               <Search className={styles.searchIcon} size={18} />
               <input
@@ -234,11 +234,11 @@ export function ScannerView() {
                   ref={fileInputRef}
                   onChange={handleFileChange}
                   accept=".pdf,.docx,image/*"
-                  style={{ display: "none" }}
+                  className={styles.hiddenInput}
                 />
                 {file ? (
                   <div className={styles.fileIndicator}>
-                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <span className={styles.fileNameText}>
                       {file.name}
                     </span>
                     <button
@@ -275,11 +275,11 @@ export function ScannerView() {
                   ref={screenshotInputRef}
                   onChange={handleScreenshotChange}
                   accept="image/*"
-                  style={{ display: "none" }}
+                  className={styles.hiddenInput}
                 />
                 {screenshot ? (
                   <div className={styles.fileIndicator}>
-                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <span className={styles.fileNameText}>
                       {screenshot.name}
                     </span>
                     <button
@@ -423,15 +423,13 @@ export function ScannerView() {
               <div className={styles.statTile}>
                 <span className={styles.statTileLabel}>Threat Index</span>
                 <span
-                  className={styles.statTileVal}
-                  style={{
-                    color:
-                      scanData.report.riskScore > 50
-                        ? "#ef4444"
-                        : scanData.report.riskScore > 20
-                        ? "var(--brand-chartreuse)"
-                        : "var(--brand-emerald)",
-                  }}
+                  className={`${styles.statTileVal} ${
+                    scanData.report.riskScore > 50
+                      ? styles.statTileValCritical
+                      : scanData.report.riskScore > 20
+                      ? styles.statTileValModerate
+                      : styles.statTileValClean
+                  }`}
                 >
                   {scanData.report.riskScore} / 100
                 </span>
@@ -442,13 +440,13 @@ export function ScannerView() {
               </div>
               <div className={styles.statTile}>
                 <span className={styles.statTileLabel}>Exposed Data Types</span>
-                <span className={styles.statTileVal} style={{ color: "var(--brand-chartreuse)" }}>
+                <span className={`${styles.statTileVal} ${styles.statTileValYellow}`}>
                   {scanData.report.summary.exposedDataClasses.length}
                 </span>
               </div>
               <div className={styles.statTile}>
                 <span className={styles.statTileLabel}>OSINT Signals</span>
-                <span className={styles.statTileVal} style={{ color: "var(--brand-cyan)" }}>
+                <span className={`${styles.statTileVal} ${styles.statTileValCyan}`}>
                   {scanData.report.accountExposures.length}
                 </span>
               </div>
@@ -506,13 +504,13 @@ export function ScannerView() {
                       <span className={styles.findingName}>{finding.fileName}</span>
                       <span className={styles.findingMeta}>Type: {finding.fileType}</span>
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "8px", marginTop: "8px" }}>
+                    <div className={styles.metadataGrid}>
                       {finding.findings.map((item, i) => (
-                        <div key={i} style={{ padding: "8px 12px", background: "var(--bg-surface)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-md)" }}>
-                          <div style={{ fontSize: "0.7rem", color: "var(--brand-cyan)", textTransform: "uppercase", fontWeight: 700 }}>
+                        <div key={i} className={styles.metadataTile}>
+                          <div className={styles.metadataLabel}>
                             {item.label}
                           </div>
-                          <div style={{ fontSize: "0.85rem", color: "var(--brand-white)", marginTop: "2px", wordBreak: "break-all" }}>
+                          <div className={styles.metadataValue}>
                             {item.value}
                           </div>
                         </div>
@@ -542,7 +540,7 @@ export function ScannerView() {
                         Risk: {finding.riskLevel} • {Math.round(finding.confidence * 100)}% Confidence
                       </span>
                     </div>
-                    <div style={{ padding: "8px 12px", background: "var(--bg-surface)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-md)", margin: "6px 0", fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--brand-cyan)" }}>
+                    <div className={styles.ocrSnippet}>
                       {finding.matchedText}
                     </div>
                     <p className={styles.findingDesc}>{finding.recommendation}</p>

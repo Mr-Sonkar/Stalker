@@ -141,7 +141,7 @@ export function Sidebar({
         {/* Navigation */}
         <nav className={styles.navContainer}>
           {navItems.map((group, groupIdx) => (
-            <div key={groupIdx}>
+            <div key={groupIdx} className={styles.navGroup}>
               {!collapsed && (
                 <div className={styles.navGroupTitle}>{group.group}</div>
               )}

@@ -91,22 +91,20 @@ export function DashboardApp({ initialView = "overview" }: DashboardAppProps) {
             <span>ENCLAVE ACTIVE: CLIENT-SIDE ZERO-KNOWLEDGE ARCHITECTURE</span>
           </div>
           <div className={styles.footerRight}>
-            <span style={{ fontFamily: "var(--font-mono)" }}>Huemint Brand Palette</span>
-            <span>•</span>
+            <span className={styles.footerPalette}>Huemint Brand Palette</span>
+            <span className={styles.footerDivider}>•</span>
             <button
               type="button"
               onClick={() => handleSelectView("overview")}
               className={styles.footerLink}
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
             >
               Dashboard Root
             </button>
-            <span>•</span>
+            <span className={styles.footerDivider}>•</span>
             <button
               type="button"
               onClick={() => handleSelectView("opt-out")}
               className={styles.footerLink}
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
             >
               Broker Dossier
             </button>

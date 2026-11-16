@@ -1,51 +1,76 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Huemint Brand Palette */
-  --brand-white: #fafeff;
-  --brand-lime: #e0e260;
-  --brand-emerald: #169b5c;
-  --brand-cyan: #2ca6e9;
+  /* =========================================================================
+     Huemint Brand Palette & Color Identity (Light Mode Refined)
+     ========================================================================= */
+  --brand-white: #0f172a;        /* High-contrast heading/primary foreground */
+  --brand-lime: #65a30d;         /* High-contrast accessible lime/olive */
+  --brand-chartreuse: #65a30d;   /* Alias for lime */
+  --brand-emerald: #059669;      /* Crisp rich emerald */
+  --brand-cyan: #0284c7;         /* High-contrast vivid sky/cyan */
+  --brand-dark: #ffffff;         /* Inverted for light mode */
 
-  /* Deep Canvas & Surfaces */
-  --bg-canvas: #03080e;
-  --bg-sidebar: #040d18;
-  --bg-header: rgba(4, 13, 24, 0.85);
-  --bg-panel: #051322;
-  --bg-card: rgba(5, 19, 34, 0.75);
-  --bg-card-hover: rgba(9, 29, 50, 0.85);
-  --bg-card-elevated: #07192b;
-  --bg-input: #02060b;
-  --bg-chip: rgba(44, 166, 233, 0.08);
+  /* =========================================================================
+     Light Canvas, Surfaces & Component Backgrounds
+     ========================================================================= */
+  --bg-canvas: #f8fafc;
+  --bg-void: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.88);
+  --bg-panel: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-card-elevated: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-hover: #f1f5f9;
+  --bg-input: #f8fafc;
+  --bg-subtle: rgba(2, 132, 199, 0.08);
+  --bg-chip: rgba(2, 132, 199, 0.1);
 
-  /* Borders */
-  --border-subtle: rgba(44, 166, 233, 0.12);
-  --border-card: rgba(44, 166, 233, 0.18);
-  --border-card-hover: rgba(44, 166, 233, 0.4);
-  --border-active: #169b5c;
-  --border-focus: #2ca6e9;
+  /* =========================================================================
+     Borders & Dividers
+     ========================================================================= */
+  --border-subtle: #e2e8f0;
+  --border-card: #e2e8f0;
+  --border-card-hover: #cbd5e1;
+  --border-accent: rgba(2, 132, 199, 0.4);
+  --border-active: #059669;
+  --border-focus: #0284c7;
 
-  /* Typography Colors */
-  --text-primary: #fafeff;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-highlight: #e0e260;
-  --text-link: #2ca6e9;
-  --text-success: #169b5c;
-  --text-danger: #ef4444;
+  /* =========================================================================
+     Typography Colors
+     ========================================================================= */
+  --text-primary: #0f172a;       /* Deep slate-900 */
+  --text-secondary: #475569;     /* Slate-600 */
+  --text-muted: #64748b;         /* Slate-500 */
+  --text-tertiary: #64748b;      /* Slate-500 */
+  --text-highlight: #b45309;     /* Amber-700 high-contrast */
+  --text-link: #0284c7;          /* Sky-600 */
+  --text-success: #059669;       /* Emerald-600 */
+  --text-danger: #dc2626;        /* Red-600 */
 
-  /* Status Colors */
-  --status-clean: #169b5c;
-  --status-low: #2ca6e9;
-  --status-moderate: #e0e260;
-  --status-high: #f97316;
-  --status-critical: #ef4444;
+  /* =========================================================================
+     Status & Threat Severity Levels
+     ========================================================================= */
+  --status-clean: #059669;
+  --status-low: #0284c7;
+  --status-moderate: #d97706;
+  --status-high: #ea580c;
+  --status-critical: #dc2626;
 
-  /* Font Families */
-  --font-family-base: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* =========================================================================
+     Font Families & Typography
+     ========================================================================= */
+  --font-family-base: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-sans: var(--font-family-base);
+  --font-mono: var(--font-family-mono);
 
-  /* Spacing */
+  /* =========================================================================
+     Spacing Scale
+     ========================================================================= */
   --space-2xs: 2px;
   --space-xs: 4px;
   --space-sm: 8px;
@@ -54,29 +79,61 @@
   --space-xl: 32px;
   --space-2xl: 48px;
 
-  /* Radii */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* =========================================================================
+     Border Radii
+     ========================================================================= */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 25px rgba(44, 166, 233, 0.15);
-  --shadow-emerald-glow: 0 0 20px rgba(22, 155, 92, 0.25);
+  /* =========================================================================
+     Shadows & Atmospheric Elevation (Refined Light Mode Depth)
+     ========================================================================= */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(15, 23, 42, 0.14);
+  --shadow-glow: 0 4px 20px rgba(2, 132, 199, 0.12);
+  --shadow-emerald-glow: 0 4px 20px rgba(5, 150, 105, 0.15);
 
-  /* Layout */
+  /* =========================================================================
+     Transitions & Motion
+     ========================================================================= */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* =========================================================================
+     Layout Constants
+     ========================================================================= */
   --sidebar-width: 270px;
   --sidebar-collapsed-width: 76px;
   --header-height: 64px;
 
-  /* Scrollbar */
-  --scrollbar-track: #03080e;
-  --scrollbar-thumb: #17384e;
+  /* =========================================================================
+     Scrollbars
+     ========================================================================= */
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
@@ -89,9 +146,14 @@
   padding: 0;
 }
 
-html,
-body {
+html {
   height: 100%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
   background-color: var(--bg-canvas);
   color: var(--text-primary);
   font-family: var(--font-family-base);
@@ -101,16 +163,18 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 ::selection {
-  background-color: var(--brand-emerald);
-  color: #ffffff;
+  background-color: rgba(5, 150, 105, 0.25);
+  color: #0f172a;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 button {
@@ -120,6 +184,15 @@ button {
   border: none;
   background: none;
   color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--brand-cyan);
+  outline-offset: 2px;
 }
 
 input,
@@ -151,12 +224,12 @@ select {
   background: var(--brand-cyan);
 }
 
-/* Subtle Cyber Grid Background */
+/* Subtle Ambient Cyber Grid (Light Mode) */
 .bg-grid-ambient {
   background-size: 36px 36px;
   background-image:
-    linear-gradient(to right, rgba(44, 166, 233, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(22, 155, 92, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(2, 132, 199, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(5, 150, 105, 0.05) 1px, transparent 1px);
 }
 
 /* Animations */

@@ -42,5 +42,13 @@
     "tailwindcss": "^4",
     "ts-jest": "^29.4.12",
     "typescript": "^5"
-  }
+  },
+  "description": "A personal privacy scanning and digital exposure intelligence web application built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS**, and **Prisma ORM**.",
+  "main": "jest.config.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC"
 }

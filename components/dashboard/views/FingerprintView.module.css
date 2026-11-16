@@ -379,3 +379,15 @@
   overflow-y: auto;
   white-space: pre-wrap;
 }
+
+
+.fontsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.fontsHeading {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}

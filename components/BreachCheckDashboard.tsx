@@ -7,6 +7,7 @@ import { BreachTimeline } from "./BreachTimeline";
 import { BreachDataBreakdown } from "./BreachDataBreakdown";
 import { PasswordCheck } from "./PasswordCheck";
 import { BreachResult } from "@/lib/hibp/email";
+import styles from "./BreachCheckDashboard.module.css";
 
 export function BreachCheckDashboard() {
   const router = useRouter();
@@ -58,82 +59,74 @@ export function BreachCheckDashboard() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8">
+    <div className={styles.container}>
       {/* Tab Switcher */}
-      <div className="flex p-1.5 space-x-2 bg-[#04101e]/80 rounded-2xl border border-[#2ca6e9]/20 backdrop-blur-xl shadow-lg">
+      <div className={styles.tabSwitcher}>
         <button
           type="button"
           onClick={() => handleTabChange("email")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold rounded-xl transition-all ${
-            activeTab === "email"
-              ? "bg-gradient-to-r from-[#169b5c] to-[#2ca6e9] text-[#fafeff] shadow-md shadow-[#169b5c]/30"
-              : "text-slate-400 hover:text-[#fafeff] hover:bg-[#071927]"
-          }`}
+          className={`${styles.tabBtn} ${activeTab === "email" ? styles.tabBtnActive : ""}`}
         >
-          <ShieldAlert className="h-4 w-4 text-[#e0e260]" />
+          <ShieldAlert className={styles.tabIconYellow} size={16} />
           <span>Email Breach Radar</span>
         </button>
         <button
           type="button"
           onClick={() => handleTabChange("password")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold rounded-xl transition-all ${
-            activeTab === "password"
-              ? "bg-gradient-to-r from-[#169b5c] to-[#2ca6e9] text-[#fafeff] shadow-md shadow-[#169b5c]/30"
-              : "text-slate-400 hover:text-[#fafeff] hover:bg-[#071927]"
-          }`}
+          className={`${styles.tabBtn} ${activeTab === "password" ? styles.tabBtnActive : ""}`}
         >
-          <Key className="h-4 w-4 text-[#2ca6e9]" />
+          <Key className={styles.tabIconCyan} size={16} />
           <span>Password k-Anonymity Check</span>
         </button>
       </div>
 
       {/* Content View */}
-      <div className="min-h-[400px]">
+      <div className={styles.contentView}>
         {activeTab === "email" && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className={styles.emailViewContainer}>
             {/* Search Input Card */}
-            <div className="rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
-              <div className="flex items-center justify-between border-b border-[#2ca6e9]/15 pb-4 mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2ca6e9]/10 border border-[#2ca6e9]/25 text-[#2ca6e9]">
-                    <ShieldAlert className="h-5 w-5" />
+            <div className={styles.searchCard}>
+              <div className={styles.searchHeader}>
+                <div className={styles.titleGroup}>
+                  <div className={styles.iconBox}>
+                    <ShieldAlert size={20} />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[#fafeff]">Account Breach Radar</h3>
-                    <p className="text-xs text-slate-400">
+                    <h3 className={styles.title}>Account Breach Radar</h3>
+                    <p className={styles.subtitle}>
                       Cross-references global breach archives and credential dump indexes
                     </p>
                   </div>
                 </div>
-                <span className="rounded-full border border-[#e0e260]/30 bg-[#e0e260]/10 px-3 py-1 text-xs font-semibold text-[#e0e260]">
+                <span className={styles.badge}>
                   Real-Time Query
                 </span>
               </div>
 
-              <form onSubmit={handleEmailCheck} className="flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
+              <form onSubmit={handleEmailCheck} className={styles.searchForm}>
+                <div className={styles.inputWrapper}>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter email to audit (e.g. name@domain.com)..."
-                    className="w-full rounded-xl border border-[#2ca6e9]/25 bg-[#030912] px-4 py-3 text-sm text-[#fafeff] placeholder-slate-500 focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
+                    className={styles.input}
                     autoComplete="email"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isLoading || !email}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#169b5c] to-[#2ca6e9] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-[#169b5c]/25 transition-all hover:opacity-95 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                  className={styles.submitBtn}
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 size={16} className="animate-spin" />
                       <span>Scanning Feeds...</span>
                     </>
                   ) : (
                     <>
-                      <Search className="h-4 w-4" />
+                      <Search size={16} />
                       <span>Check Exposure</span>
                     </>
                   )}
@@ -141,19 +134,19 @@ export function BreachCheckDashboard() {
               </form>
 
               {/* Sample Email Chips */}
-              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-                <span className="text-slate-400">Test account:</span>
+              <div className={styles.chipRow}>
+                <span>Test account:</span>
                 <button
                   type="button"
                   onClick={() => setEmail("account-exists@hibp-integration-tests.com")}
-                  className="rounded-lg border border-[#2ca6e9]/25 bg-[#030912] px-2.5 py-1 text-xs text-slate-300 transition-colors hover:border-[#169b5c] hover:text-[#e0e260] font-mono"
+                  className={styles.sampleChip}
                 >
                   account-exists@hibp-integration-tests.com
                 </button>
               </div>
 
               {error && (
-                <div className="mt-4 rounded-xl border border-red-500/30 bg-red-950/30 p-4 text-xs text-red-300">
+                <div className={styles.errorBanner}>
                   {error}
                 </div>
               )}
@@ -161,24 +154,24 @@ export function BreachCheckDashboard() {
 
             {/* Breaches View */}
             {breaches && (
-              <div className="space-y-8 animate-in fade-in duration-300">
+              <div className={styles.breachesContainer}>
                 {breaches.length > 0 ? (
                   <>
-                    <div className="rounded-2xl border border-red-500/30 bg-red-950/20 p-5 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/20 text-red-400">
-                          <ShieldAlert className="h-5 w-5" />
+                    <div className={styles.highRiskAlert}>
+                      <div className={styles.alertLeft}>
+                        <div className={styles.alertIconBox}>
+                          <ShieldAlert size={20} />
                         </div>
                         <div>
-                          <h4 className="text-base font-bold text-[#fafeff]">
+                          <h4 className={styles.alertTitle}>
                             Compromised in {breaches.length} Data Breaches
                           </h4>
-                          <p className="text-xs text-red-300/80">
+                          <p className={styles.alertDesc}>
                             Immediate password reset and 2FA activation recommended
                           </p>
                         </div>
                       </div>
-                      <span className="font-mono text-xs font-bold text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/30">
+                      <span className={styles.alertBadge}>
                         High Risk
                       </span>
                     </div>
@@ -187,12 +180,12 @@ export function BreachCheckDashboard() {
                     <BreachTimeline breaches={breaches} />
                   </>
                 ) : (
-                  <div className="rounded-3xl border border-[#169b5c]/30 bg-[#169b5c]/10 p-8 text-center shadow-2xl backdrop-blur-xl">
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#169b5c]/20 border border-[#169b5c]/30 text-[#169b5c] mb-3">
-                      <CheckCircle2 className="h-7 w-7 text-[#e0e260]" />
+                  <div className={styles.cleanCard}>
+                    <div className={styles.cleanIconBox}>
+                      <CheckCircle2 size={28} />
                     </div>
-                    <h4 className="text-xl font-bold text-[#fafeff]">No Breaches Found!</h4>
-                    <p className="mt-2 text-sm text-slate-300 max-w-md mx-auto">
+                    <h4 className={styles.cleanTitle}>No Breaches Found!</h4>
+                    <p className={styles.cleanDesc}>
                       This email address does not appear in any known public breach indexes.
                     </p>
                   </div>
@@ -203,7 +196,7 @@ export function BreachCheckDashboard() {
         )}
 
         {activeTab === "password" && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div>
             <PasswordCheck />
           </div>
         )}

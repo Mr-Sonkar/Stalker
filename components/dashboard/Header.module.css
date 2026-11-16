@@ -5,18 +5,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-xl);
+  padding: 0 var(--space-8);
   position: sticky;
   top: 0;
   z-index: 30;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: padding var(--duration-normal) var(--ease-out);
 }
 
 .leftSection {
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  min-width: 0;
 }
 
 .mobileMenuBtn {
@@ -29,6 +31,14 @@
   background-color: var(--bg-card);
   border: 1px solid var(--border-card);
   color: var(--text-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.mobileMenuBtn:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--border-card-hover);
 }
 
 .breadcrumb {
@@ -36,28 +46,35 @@
   align-items: center;
   gap: var(--space-xs);
   font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .breadcrumbRoot {
   color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .breadcrumbSeparator {
   color: var(--text-muted);
+  flex-shrink: 0;
 }
 
 .breadcrumbCurrent {
   color: var(--brand-white);
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rightSection {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
+  flex-shrink: 0;
 }
 
 .badgePill {
@@ -71,6 +88,7 @@
   background-color: rgba(22, 155, 92, 0.12);
   color: var(--brand-emerald);
   border: 1px solid rgba(22, 155, 92, 0.3);
+  letter-spacing: 0.02em;
 }
 
 .pulseDot {
@@ -80,6 +98,7 @@
   background-color: var(--brand-lime);
   box-shadow: 0 0 6px var(--brand-lime);
   animation: pulseGlow 2s infinite ease-in-out;
+  flex-shrink: 0;
 }
 
 .quickPill {
@@ -93,11 +112,23 @@
   background-color: var(--bg-card);
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.quickPill:hover {
+  border-color: var(--border-card-hover);
+  color: var(--brand-white);
+}
+
+@media (max-width: 1024px) {
+  .header {
+    padding: 0 var(--space-6);
+  }
 }
 
 @media (max-width: 900px) {
   .header {
-    padding: 0 var(--space-md);
+    padding: 0 var(--space-4);
   }
 
   .mobileMenuBtn {
@@ -106,5 +137,20 @@
 
   .quickPill {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumbRoot,
+  .breadcrumbSeparator {
+    display: none;
+  }
+
+  .badgePill span {
+    display: none;
+  }
+
+  .badgePill {
+    padding: 6px;
   }
 }

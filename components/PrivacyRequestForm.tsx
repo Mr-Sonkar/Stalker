@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Copy, Mail, CheckCircle2, Scale, Download, Building2 } from "lucide-react";
+import styles from "./PrivacyRequestForm.module.css";
 
 type Jurisdiction = "GDPR" | "CCPA" | "GENERAL";
 type RequestType = "DELETE" | "ACCESS" | "DO_NOT_SELL";
@@ -145,26 +146,24 @@ export function PrivacyRequestForm() {
   )}&body=${encodeURIComponent(generatedEmail.body)}`;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-6xl mx-auto">
+    <div className={styles.container}>
       {/* Form Section */}
-      <div className="space-y-6 rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-        <div className="flex items-center justify-between border-b border-[#2ca6e9]/15 pb-4">
-          <div className="flex items-center gap-3">
-            <Scale className="h-6 w-6 text-[#2ca6e9]" />
-            <h2 className="text-xl font-bold text-[#fafeff]">Legal Notice Builder</h2>
+      <div className={styles.formCard}>
+        <div className={styles.formHeader}>
+          <div className={styles.titleGroup}>
+            <Scale className={styles.titleIcon} size={24} />
+            <h2 className={styles.title}>Legal Notice Builder</h2>
           </div>
-          <span className="rounded-full border border-[#169b5c]/30 bg-[#169b5c]/10 px-2.5 py-0.5 text-xs font-semibold text-[#169b5c]">
-            Statutory Compliant
-          </span>
+          <span className={styles.badge}>Statutory Compliant</span>
         </div>
 
         {/* Quick Pre-fills */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-2 flex items-center gap-1.5">
-            <Building2 className="h-3.5 w-3.5 text-[#2ca6e9]" />
+        <div className={styles.prefillSection}>
+          <label className={styles.prefillLabel}>
+            <Building2 className={styles.prefillIcon} size={14} />
             <span>Quick Pre-fill Common Organizations:</span>
           </label>
-          <div className="flex flex-wrap gap-1.5">
+          <div className={styles.prefillRow}>
             {POPULAR_COMPANIES.map((comp) => (
               <button
                 key={comp.name}
@@ -173,7 +172,7 @@ export function PrivacyRequestForm() {
                   setCompanyName(comp.name);
                   setPrivacyEmail(comp.email);
                 }}
-                className="rounded-lg border border-[#2ca6e9]/20 bg-[#030912] px-2.5 py-1 text-[11px] text-slate-300 transition-colors hover:border-[#169b5c] hover:text-[#fafeff]"
+                className={styles.prefillBtn}
               >
                 {comp.name}
               </button>
@@ -181,21 +180,17 @@ export function PrivacyRequestForm() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-              Legal Jurisdiction
-            </label>
-            <div className="grid grid-cols-3 gap-2">
+        <div className={styles.fieldsSection}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Legal Jurisdiction</label>
+            <div className={styles.jurisdictionGrid}>
               {(["GDPR", "CCPA", "GENERAL"] as Jurisdiction[]).map((j) => (
                 <button
                   key={j}
                   type="button"
                   onClick={() => setJurisdiction(j)}
-                  className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
-                    jurisdiction === j
-                      ? "bg-gradient-to-r from-[#169b5c] to-[#2ca6e9] text-white shadow-md shadow-[#169b5c]/25 border-transparent"
-                      : "bg-[#030912] text-slate-400 border border-[#2ca6e9]/15 hover:border-[#2ca6e9]/40 hover:text-slate-200"
+                  className={`${styles.jurisdictionBtn} ${
+                    jurisdiction === j ? styles.jurisdictionBtnActive : ""
                   }`}
                 >
                   {j === "GENERAL" ? "International" : j}
@@ -204,18 +199,14 @@ export function PrivacyRequestForm() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-              Request Type
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Request Type</label>
+            <div className={styles.requestTypeGrid}>
               <button
                 type="button"
                 onClick={() => setRequestType("DELETE")}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
-                  requestType === "DELETE"
-                    ? "bg-red-600 text-white shadow-md shadow-red-600/30 border-transparent"
-                    : "bg-[#030912] text-slate-400 border border-slate-800 hover:border-red-500/40"
+                className={`${styles.requestBtn} ${
+                  requestType === "DELETE" ? styles.requestBtnDeleteActive : ""
                 }`}
               >
                 Purge / Delete (Art 17)
@@ -223,10 +214,8 @@ export function PrivacyRequestForm() {
               <button
                 type="button"
                 onClick={() => setRequestType("ACCESS")}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
-                  requestType === "ACCESS"
-                    ? "bg-[#169b5c] text-white shadow-md shadow-[#169b5c]/30 border-transparent"
-                    : "bg-[#030912] text-slate-400 border border-slate-800 hover:border-[#169b5c]/50"
+                className={`${styles.requestBtn} ${
+                  requestType === "ACCESS" ? styles.requestBtnAccessActive : ""
                 }`}
               >
                 Subject Access (Art 15)
@@ -234,10 +223,8 @@ export function PrivacyRequestForm() {
               <button
                 type="button"
                 onClick={() => setRequestType("DO_NOT_SELL")}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all ${
-                  requestType === "DO_NOT_SELL"
-                    ? "bg-[#e0e260] text-[#03080e] font-bold shadow-md shadow-[#e0e260]/30 border-transparent"
-                    : "bg-[#030912] text-slate-400 border border-slate-800 hover:border-[#e0e260]/50"
+                className={`${styles.requestBtn} ${
+                  requestType === "DO_NOT_SELL" ? styles.requestBtnDoNotSellActive : ""
                 }`}
               >
                 Do Not Sell / Share
@@ -245,60 +232,54 @@ export function PrivacyRequestForm() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className={styles.twoColRow}>
             <div>
-              <label className="block text-xs font-medium text-slate-400 mb-1">
-                Target Organization Name
-              </label>
+              <label className={styles.fieldLabelInput}>Target Organization Name</label>
               <input
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
                 placeholder="e.g. Acme Corporation"
-                className="w-full rounded-xl border border-[#2ca6e9]/20 bg-[#030912] px-3 py-2.5 text-xs text-[#fafeff] placeholder-slate-600 focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
+                className={styles.input}
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-400 mb-1">
-                Target Privacy/DPO Email
-              </label>
+              <label className={styles.fieldLabelInput}>Target Privacy/DPO Email</label>
               <input
                 type="email"
                 value={privacyEmail}
                 onChange={(e) => setPrivacyEmail(e.target.value)}
                 placeholder="dpo@acme.com"
-                className="w-full rounded-xl border border-[#2ca6e9]/20 bg-[#030912] px-3 py-2.5 text-xs text-[#fafeff] placeholder-slate-600 focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
+                className={styles.input}
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className={styles.twoColRow}>
             <div>
-              <label className="block text-xs font-medium text-slate-400 mb-1">Your Full Name</label>
+              <label className={styles.fieldLabelInput}>Your Full Name</label>
               <input
                 type="text"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="e.g. Jane Doe"
-                className="w-full rounded-xl border border-[#2ca6e9]/20 bg-[#030912] px-3 py-2.5 text-xs text-[#fafeff] placeholder-slate-600 focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
+                className={styles.input}
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-400 mb-1">
-                Your Contact Email
-              </label>
+              <label className={styles.fieldLabelInput}>Your Contact Email</label>
               <input
                 type="email"
                 value={userEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="jane@example.com"
-                className="w-full rounded-xl border border-[#2ca6e9]/20 bg-[#030912] px-3 py-2.5 text-xs text-[#fafeff] placeholder-slate-600 focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
+                className={styles.input}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">
+            <label className={styles.fieldLabelInput}>
               Account Identification (Username, Account ID, or Phone)
             </label>
             <input
@@ -306,44 +287,48 @@ export function PrivacyRequestForm() {
               value={additionalInfo}
               onChange={(e) => setAdditionalInfo(e.target.value)}
               placeholder="e.g. Account ID #987654 or associated phone"
-              className="w-full rounded-xl border border-[#2ca6e9]/20 bg-[#030912] px-3 py-2.5 text-xs text-[#fafeff] placeholder-slate-600 focus:border-[#2ca6e9] focus:outline-none focus:ring-1 focus:ring-[#2ca6e9]"
+              className={styles.input}
             />
           </div>
         </div>
       </div>
 
       {/* Output Section */}
-      <div className="flex flex-col space-y-4">
-        <div className="flex-1 rounded-3xl border border-[#2ca6e9]/20 bg-[#04101e]/85 shadow-2xl backdrop-blur-xl overflow-hidden flex flex-col">
-          <div className="bg-[#030912]/90 border-b border-[#2ca6e9]/15 px-4 py-3 flex items-center justify-between">
-            <span className="text-xs font-mono text-[#e0e260] truncate max-w-[280px]">
+      <div className={styles.outputSection}>
+        <div className={styles.previewCard}>
+          <div className={styles.previewHeader}>
+            <span className={styles.subjectText}>
               Subject: {generatedEmail.subject}
             </span>
-            <div className="flex items-center gap-2">
+            <div className={styles.previewActions}>
               <button
                 type="button"
                 onClick={handleCopy}
-                className="flex items-center gap-1.5 text-xs font-medium text-[#2ca6e9] hover:text-[#e0e260] transition-colors"
+                className={styles.actionBtn}
               >
-                {copied ? <CheckCircle2 className="h-4 w-4 text-[#169b5c]" /> : <Copy className="h-4 w-4" />}
+                {copied ? (
+                  <CheckCircle2 className={styles.successIcon} size={15} />
+                ) : (
+                  <Copy size={15} />
+                )}
                 <span>{copied ? "Copied" : "Copy"}</span>
               </button>
               <button
                 type="button"
                 onClick={handleDownloadTxt}
-                className="flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-[#fafeff] transition-colors"
+                className={`${styles.actionBtn} ${styles.actionBtnSecondary}`}
                 title="Download as .txt"
               >
-                <Download className="h-4 w-4" />
+                <Download size={15} />
               </button>
             </div>
           </div>
 
-          <div className="p-4 flex-1">
+          <div className={styles.previewBody}>
             <textarea
               readOnly
               value={generatedEmail.body}
-              className="w-full h-full min-h-[340px] bg-transparent text-xs text-slate-300 resize-none focus:outline-none font-mono leading-relaxed"
+              className={styles.previewTextarea}
             />
           </div>
         </div>
@@ -356,9 +341,9 @@ export function PrivacyRequestForm() {
               alert("Please enter or select a target privacy email address first.");
             }
           }}
-          className="w-full flex justify-center items-center gap-2 rounded-2xl bg-gradient-to-r from-[#169b5c] to-[#2ca6e9] px-5 py-4 text-sm font-bold text-white shadow-lg shadow-[#169b5c]/25 transition-all hover:opacity-95 active:scale-95"
+          className={styles.dispatchBtn}
         >
-          <Mail className="h-4 w-4" />
+          <Mail size={16} />
           <span>Dispatch Notice in Default Email Client</span>
         </a>
       </div>

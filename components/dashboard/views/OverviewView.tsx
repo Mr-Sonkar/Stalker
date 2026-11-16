@@ -29,8 +29,7 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
       label: "Account Exposures",
       value: "HIBP Feed",
       icon: ShieldAlert,
-      iconBg: "rgba(239, 68, 68, 0.15)",
-      iconColor: "#ef4444",
+      iconClass: styles.statIconBreach,
       footer: "Real-time query ready",
       actionView: "breach-check" as DashboardViewKey,
     },
@@ -38,8 +37,7 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
       label: "Password Hardening",
       value: "k-Anonymity",
       icon: KeyRound,
-      iconBg: "rgba(44, 166, 233, 0.15)",
-      iconColor: "var(--brand-cyan)",
+      iconClass: styles.statIconPassword,
       footer: "Zero-plaintext leakage",
       actionView: "password" as DashboardViewKey,
     },
@@ -47,8 +45,7 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
       label: "Browser Tracking Surface",
       value: "GPU & Audio",
       icon: Fingerprint,
-      iconBg: "rgba(22, 155, 92, 0.15)",
-      iconColor: "var(--brand-emerald)",
+      iconClass: styles.statIconFingerprint,
       footer: "55+ font probe metrics",
       actionView: "fingerprint" as DashboardViewKey,
     },
@@ -56,8 +53,7 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
       label: "Public Broker Records",
       value: "7 Directories",
       icon: BookOpen,
-      iconBg: "rgba(224, 226, 96, 0.15)",
-      iconColor: "var(--brand-lime)",
+      iconClass: styles.statIconOptOut,
       footer: "Suppression checklist",
       actionView: "opt-out" as DashboardViewKey,
     },
@@ -138,10 +134,7 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
             >
               <div className={styles.statHeader}>
                 <span className={styles.statLabel}>{stat.label}</span>
-                <div
-                  className={styles.statIcon}
-                  style={{ backgroundColor: stat.iconBg, color: stat.iconColor }}
-                >
+                <div className={`${styles.statIcon} ${stat.iconClass}`}>
                   <Icon size={18} />
                 </div>
               </div>
@@ -156,14 +149,16 @@ export function OverviewView({ onNavigate }: OverviewViewProps) {
       </div>
 
       {/* Intelligence Modules */}
-      <div>
-        <h2 className={styles.sectionTitle}>
-          <Layers size={18} color="var(--brand-cyan)" />
-          <span>Privacy & Security Intelligence Modules</span>
-        </h2>
-        <p className={styles.sectionSubtitle}>
-          Select a module below to launch the active dashboard engine
-        </p>
+      <div className={styles.sectionGroup}>
+        <div className={styles.sectionHeaderRow}>
+          <h2 className={styles.sectionTitle}>
+            <Layers size={18} className={styles.sectionTitleIcon} />
+            <span>Privacy & Security Intelligence Modules</span>
+          </h2>
+          <p className={styles.sectionSubtitle}>
+            Select a module below to launch the active dashboard engine
+          </p>
+        </div>
 
         <div className={styles.launchersGrid}>
           {modules.map((mod) => {
